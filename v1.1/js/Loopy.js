@@ -26,6 +26,8 @@ function Loopy(config){
 	self.offsetX = 0;
 	self.offsetY = 0;
 	self.offsetScale = 1;
+	var maxScale = 10;
+	var minScale = 0.1;
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
@@ -77,8 +79,9 @@ function Loopy(config){
 		if(!self.modal.isShowing){ // modAl
 			self.model.update(); // modEl
 		}
+		//self.zoom(-0.01);
 	};
-	setInterval(self.update, 1000/30); // 30 FPS, why not.
+	setInterval(self.update, 1000/60); // 30 FPS, why not. ////No! 60!
 
 	// Draw
 	self.draw = function(){
@@ -87,6 +90,14 @@ function Loopy(config){
 		}
 		requestAnimationFrame(self.draw);
 	};
+
+	window.addEventListener("wheel", console.log("Hello world"));
+	// Figure out how to zoom
+	self.zoom = function(speed){
+		self.offsetScale += speed;
+		// Clamp offsetScale to max and min scale
+		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+	}
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
 	// (only Nodes need redrawing often. And only in PLAY mode.)
