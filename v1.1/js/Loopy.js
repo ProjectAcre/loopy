@@ -28,6 +28,7 @@ function Loopy(config){
 	self.offsetScale = 1;
 	var maxScale = 10;
 	var minScale = 0.1;
+	var zoomSpeed = 0.1;
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
@@ -79,7 +80,8 @@ function Loopy(config){
 		if(!self.modal.isShowing){ // modAl
 			self.model.update(); // modEl
 		}
-		//self.zoom(-0.01);
+		window.addEventListener("wheel", self.zoom);
+		//self.zoom(0.01);
 	};
 	setInterval(self.update, 1000/60); // 30 FPS, why not. ////No! 60!
 
@@ -91,9 +93,10 @@ function Loopy(config){
 		requestAnimationFrame(self.draw);
 	};
 
-	window.addEventListener("wheel", console.log("Hello world"));
 	// Figure out how to zoom
-	self.zoom = function(speed){
+	self.zoom = function(event){
+		// Get mouse scroll direction, inverse, multiply by zoom speed
+		speed = Math.sign(event.deltaY) * -zoomSpeed; 
 		self.offsetScale += speed;
 		// Clamp offsetScale to max and min scale
 		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
