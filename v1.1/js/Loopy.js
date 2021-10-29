@@ -29,6 +29,7 @@ function Loopy(config){
 	var maxScale = 10;
 	var minScale = 0.1;
 	var zoomSpeed = 0.1;
+	var moveSpeed = 10;
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
@@ -81,6 +82,7 @@ function Loopy(config){
 			self.model.update(); // modEl
 		}
 		window.addEventListener("wheel", self.zoom);
+		window.addEventListener("keydown", self.moveWindow);
 		//self.zoom(0.01);
 	};
 	setInterval(self.update, 1000/60); // 30 FPS, why not. ////No! 60!
@@ -100,6 +102,40 @@ function Loopy(config){
 		self.offsetScale += speed;
 		// Clamp offsetScale to max and min scale
 		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+	}
+
+	self.moveWindow = function(event){
+		keyPressed = event.key;
+		moveX = 0;
+		moveY = 0;
+		// Vertical
+		if(keyPressed == 'w' || keyPressed == 'ArrowUp') // Up
+		{
+			moveY = 1;
+		}
+		else if(keyPressed == 's' || keyPressed == 'ArrowDown') // Down
+		{
+			moveY = -1;
+		}
+
+		self.offsetY += moveY * moveSpeed;
+
+		// Horizontal
+		if(keyPressed == 'a' || keyPressed == 'ArrowLeft') // Left
+		{
+			moveX = 1;
+		}
+		else if(keyPressed == 'd' || keyPressed == 'ArrowRight') // Right
+		{
+			moveX = -1;
+		}
+
+		self.offsetX += moveX * moveSpeed;
+
+	}
+
+	self.movePerspective = function(event) {
+		console.log
 	}
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
