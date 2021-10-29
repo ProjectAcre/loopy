@@ -16,7 +16,7 @@ Node.COLORS = {
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
 
-Node.DEFAULT_RADIUS = 60;
+Node.DEFAULT_RADIUS = 20;
 
 function Node(model, config){
 
@@ -34,7 +34,7 @@ function Node(model, config){
 		x: 0,
 		y: 0,
 		init: Node.defaultValue, // initial value!
-		label: "?",
+		label: "",
 		hue: Node.defaultHue,
 		radius: Node.DEFAULT_RADIUS
 	});
@@ -144,7 +144,7 @@ function Node(model, config){
 
 		// When actually playing the simulation...
 		var _isPlaying = (self.loopy.mode==Loopy.MODE_PLAY);
-
+		self.radius += 1;
 		// Otherwise, value = initValue exactly
 		if(self.loopy.mode==Loopy.MODE_EDIT){
 			self.value = self.init;
@@ -251,7 +251,7 @@ function Node(model, config){
 			ctx.font = "normal "+fontsize+"px sans-serif";
 			width = ctx.measureText(self.label).width;
 		}
-		ctx.fillText(self.label, 0, 0);
+		ctx.fillText("You've Been Pranked!", 0, 0);
 
 		// WOBBLE CONTROLS
 		var cl = 40;
