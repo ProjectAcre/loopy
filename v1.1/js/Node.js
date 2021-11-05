@@ -240,18 +240,17 @@ function Node(model, config){
 		ctx.fill();
 
 		// Text!
-		var fontsize = 40;
-		ctx.font = "normal "+fontsize+"px sans-serif";
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.fillStyle = "#000";
-		var width = ctx.measureText(self.label).width;
-		while(width > r*2 - 30){ // -30 for buffer. HACK: HARD-CODED.
-			fontsize -= 1;
-			ctx.font = "normal "+fontsize+"px sans-serif";
-			width = ctx.measureText(self.label).width;
-		}
-		ctx.fillText(self.label, 0, 0);
+	
+		// resize label text
+		self.fillSelfSizingText(ctx, r, self.label, 0);
+	
+		var roundedValue = Math.round(self.value * 100) / 100; // Temp variable solely to cleanly display value
+		
+		// resize value text
+		self.fillSelfSizingText(ctx, r, roundedValue, 40); // Display value slightly below label.
 
 		// WOBBLE CONTROLS
 		var cl = 40;
@@ -284,6 +283,18 @@ function Node(model, config){
 		// Restore
 		ctx.restore();
 
+	};
+
+	self.fillSelfSizingText = function(ctx, r, text, y_displacement) {
+		var fontsize = 40;
+		ctx.font = "normal "+fontsize+"px sans-serif";
+		var textWidth = ctx.measureText(text).width;
+		while(textWidth > r*2 - 30){ // -30 for buffer. HACK: HARD-CODED. //WHY?!??!
+			fontsize -= 1;
+			ctx.font = "normal "+fontsize+"px sans-serif";
+			textWidth = ctx.measureText(text).width;
+		}
+		ctx.fillText(text, 0, y_displacement);
 	};
 
 	//////////////////////////////////////
