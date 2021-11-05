@@ -245,15 +245,28 @@ function Node(model, config){
 		ctx.textAlign = "center";
 		ctx.textBaseline = "middle";
 		ctx.fillStyle = "#000";
-		var width = ctx.measureText(self.label).width;
-		while(width > r*2 - 30){ // -30 for buffer. HACK: HARD-CODED.
+
+		// resize label text
+		var labelWidth = ctx.measureText(self.label).width;
+		while(labelWidth > r*2 - 30){ // -30 for buffer. HACK: HARD-CODED.
 			fontsize -= 1;
 			ctx.font = "normal "+fontsize+"px sans-serif";
-			width = ctx.measureText(self.label).width;
+			labelWidth = ctx.measureText(self.label).width;
 		}
 		ctx.fillText(self.label, 0, 0);
+		
+		// resize value text
+		fontsize = 40;
+		ctx.font = "normal "+fontsize+"px sans-serif";
 		var roundedValue = Math.round(self.value * 100) / 100; // Temp variable solely to cleanly display value
+		var valueWidth = ctx.measureText(roundedValue).width;
+		while(valueWidth > r*2 - 30){ // -30 for buffer. HACK: HARD-CODED.
+			fontsize -= 1;
+			ctx.font = "normal "+fontsize+"px sans-serif";
+			valueWidth = ctx.measureText(roundedValue).width;
+		}
 		ctx.fillText(roundedValue, 0, 40); //Display value slightly below label.
+
 		// WOBBLE CONTROLS
 		var cl = 40;
 		var cy = 0;
