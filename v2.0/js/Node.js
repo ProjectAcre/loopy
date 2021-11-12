@@ -18,6 +18,9 @@ Node.defaultHue = 0;
 
 Node.DEFAULT_RADIUS = 60;
 
+Node.defaultExplodeUpperThreshold = 10;
+Node.defaultExplodeLowerThreshold = 0;
+
 function Node(model, config){
 
 	var self = this;
@@ -36,7 +39,10 @@ function Node(model, config){
 		init: Node.defaultValue, // initial value!
 		label: "?",
 		hue: Node.defaultHue,
-		radius: Node.DEFAULT_RADIUS
+		radius: Node.DEFAULT_RADIUS,
+		explodable: false,
+		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
+		defaultExplodeLowerThreshold: Node.defaultExplodeLowerThreshold,
 	});
 
 	// Value: from 0 to 1
@@ -47,6 +53,7 @@ function Node(model, config){
 		if(self.value<-buffer) self.value=-buffer;
 		if(self.value>1+buffer) self.value=1+buffer;*/
 	};
+
 
 	// MOUSE.
 	var _controlsVisible = false;
@@ -172,12 +179,17 @@ function Node(model, config){
 		_offsetVel *= _offsetDamp;
 		_offsetAcc = (_offsetGoto-_offset)*_offsetHookes;
 
+		// TODO: Explode
+		if(self.explodable && self.value > (self.explodeUpperThreshold || self.value < self.defaultExplodeLowerThreshold))
+		{
+			console.log("Node Exploded!");
+			self.kill(); //TODO: proper explosion consequences
+		}
 	};
 
 	// Draw
 	var _circleRadius = 0;
 	self.draw = function(ctx){
-
 		// Retina
 		var x = self.x*2;
 		var y = self.y*2;

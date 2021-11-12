@@ -29,13 +29,7 @@ function Sidebar(loopy){
 	// Node!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+		backToTopButton(self, page);
 		page.addComponent("label", new ComponentInput({
 			label: "<br><br>Name:"
 			//label: "Name:"
@@ -69,27 +63,14 @@ function Sidebar(loopy){
 			if(name=="" || name=="?") page.getComponent("label").select();
 
 		};
-		page.addComponent(new ComponentButton({
-			label: "delete node",
-			//label: "delete circle",
-			onclick: function(node){
-				node.kill();
-				self.showPage("Edit");
-			}
-		}));
+		deleteMeButton(self, page, "Delete Node");
 		self.addPage("Node", page);
 	})();
 
 	// Edge!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+		backToTopButton(self, page);
 		page.addComponent("strength", new ComponentSlider({
 			bg: "strength",
 			label: "<br><br>Relationship:",
@@ -103,28 +84,14 @@ function Sidebar(loopy){
 			html: "(to make a stronger relationship, draw multiple arrows!)<br><br>"+
 			"(to make a delayed relationship, draw longer arrows)"
 		}));
-		page.addComponent(new ComponentButton({
-			//label: "delete edge",
-			label: "delete arrow",
-			//label: "delete relationship",
-			onclick: function(edge){
-				edge.kill();
-				self.showPage("Edit");
-			}
-		}));
+		deleteMeButton(self, page, "Delete Arrow");
 		self.addPage("Edge", page);
 	})();
 
 	// Label!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+		backToTopButton(self, page);
 		page.addComponent("text", new ComponentInput({
 			label: "<br><br>Label:",
 			//label: "Label:",
@@ -149,13 +116,7 @@ function Sidebar(loopy){
 			}
 
 		};
-		page.addComponent(new ComponentButton({
-			label: "delete label",
-			onclick: function(label){
-				label.kill();
-				self.showPage("Edit");
-			}
-		}));
+		deleteMeButton(self, page, "Delete Label");
 		self.addPage("Label", page);
 	})();
 
@@ -199,6 +160,25 @@ function Sidebar(loopy){
 
 }
 
+// Taking a page from 1000i100's book and reducing copypasta
+function backToTopButton(sidebar, page){
+	page.addComponent(new ComponentButton({
+		header: true,
+		label: "back to top",
+		onclick: function(){
+			sidebar.showPage("Edit");
+		}
+	}));
+}
+function deleteMeButton(sidebar, page, label){
+	page.addComponent(new ComponentButton({
+		label: label,
+		onclick: function(me){
+			me.kill();
+			sidebar.showPage("Edit");
+		}
+	}));
+}
 function SidebarPage(){
 
 	// TODO: be able to focus on next component with an "Enter".
