@@ -70,7 +70,7 @@ function Sidebar(loopy){
 
 		};
 		page.addComponent("explodes",new ComponentSlider({
-			bg: "initial",
+			bg: "explodes",
 			label: "Explodes:",
 			value: true,
 			options: [false, true],
