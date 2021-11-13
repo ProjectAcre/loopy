@@ -270,7 +270,8 @@ function Model(loopy){
 				Math.round(node.y),
 				node.init,
 				encodeURIComponent(encodeURIComponent(node.label)),
-				node.hue
+				node.hue,
+				node.explodes
 			]);
 		}
 		data.push(nodes);
@@ -344,7 +345,8 @@ function Model(loopy){
 				y: node[2],
 				init: node[3],
 				label: decodeURIComponent(node[4]),
-				hue: node[5]
+				hue: node[5],
+				explodes: node[6]
 			});
 		}
 

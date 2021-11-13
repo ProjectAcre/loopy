@@ -15,6 +15,7 @@ Node.COLORS = {
 
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
+Node.defaultExplodes = false;
 
 Node.DEFAULT_RADIUS = 60;
 
@@ -35,12 +36,17 @@ function Node(model, config){
 		y: 0,
 		init: Node.defaultValue, // initial value!
 		label: "?",
+		explodes: Node.defaultExplodes,
 		hue: Node.defaultHue,
 		radius: Node.DEFAULT_RADIUS
 	});
 
 	// Value: from 0 to 1
 	self.value = self.init;
+
+	// Init to not exploded
+	self.exploded = false;
+
 	// TODO: ACTUALLY VISUALIZE AN INFINITE RANGE
 	self.bound = function(){ // bound ONLY when changing value.
 		/*var buffer = 1.2;
@@ -81,13 +87,20 @@ function Node(model, config){
 
 			// Change my value
 			var delta = _controlsDirection*0.33; // HACK: hard-coded 0.33
-			self.value += delta;
 
-			// And also PROPAGATE THE DELTA
-			self.sendSignal({
-				delta: delta
-			});
+			// Only change value and propogate if not exploded
+			if(!self.exploded) {
+				self.value += delta;
 
+				self.sendSignal({
+					delta: delta
+				});
+			}
+
+			// Explode if exceeds limit
+			if(self.explodes && (self.value > 1 || self.value < 0)) {
+				self.exploded = true;
+			}
 		}
 
 	});
@@ -97,6 +110,7 @@ function Node(model, config){
 	});
 	var _listenerReset = subscribe("model/reset", function(){
 		self.value = self.init;
+		self.exploded = false;
 	});
 
 	//////////////////////////////////////
@@ -115,11 +129,21 @@ function Node(model, config){
 
 	self.takeSignal = function(signal){
 
-		// Change value
-		self.value += signal.delta;
+		// Change value if not exploded
+		if(!self.exploded) {
+			self.value += signal.delta;
+		}
 
-		// Propagate signal
-		self.sendSignal(signal);
+		// Explode if exceeded value
+		if(self.explodes && (self.value > 1 || self.value < 0)) {
+			self.exploded = true;
+		}
+
+		// Propagate signal if not exploded
+		if(!self.exploded) {
+			self.sendSignal(signal);
+		}
+
 		// self.sendSignal(signal.delta*0.9); // PROPAGATE SLIGHTLY WEAKER
 
 		// Animation
@@ -148,6 +172,7 @@ function Node(model, config){
 		// Otherwise, value = initValue exactly
 		if(self.loopy.mode==Loopy.MODE_EDIT){
 			self.value = self.init;
+			self.exploded = false;
 		}
 
 		// Cursor!
@@ -251,6 +276,10 @@ function Node(model, config){
 		
 		// resize value text
 		self.fillSelfSizingText(ctx, r, roundedValue, 40); // Display value slightly below label.
+
+
+		// resize explody test
+		self.fillSelfSizingText(ctx, r, "" + self.explodes + ", " + self.exploded, 80);
 
 		// WOBBLE CONTROLS
 		var cl = 40;
