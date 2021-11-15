@@ -16,6 +16,7 @@ Node.COLORS = {
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
 Node.defaultExplodes = false;
+Node.explodedColor = "#808080";
 
 Node.DEFAULT_RADIUS = 60;
 
@@ -208,6 +209,11 @@ function Node(model, config){
 		var y = self.y*2;
 		var r = self.radius*2;
 		var color = Node.COLORS[self.hue];
+
+		// Modify color if exploded
+		if(self.exploded) {
+			color = Node.explodedColor;
+		}
 
 		// Translate!
 		ctx.save();
