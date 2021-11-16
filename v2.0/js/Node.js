@@ -18,6 +18,7 @@ Node.defaultHue = 0;
 
 Node.DEFAULT_RADIUS = 60;
 
+Node.defaultExplodable=false;
 Node.defaultExplodeUpperThreshold = 10;
 Node.defaultExplodeLowerThreshold = 0;
 
@@ -40,7 +41,7 @@ function Node(model, config){
 		label: "?",
 		hue: Node.defaultHue,
 		radius: Node.DEFAULT_RADIUS,
-		explodable: false,
+		explodable: Node.defaultExplodable,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
 		defaultExplodeLowerThreshold: Node.defaultExplodeLowerThreshold,
 	});
@@ -180,6 +181,7 @@ function Node(model, config){
 		_offsetAcc = (_offsetGoto-_offset)*_offsetHookes;
 
 		// TODO: Explode
+		console.log(self.explodable);
 		if(self.explodable && self.value > (self.explodeUpperThreshold || self.value < self.defaultExplodeLowerThreshold))
 		{
 			console.log("Node Exploded!");

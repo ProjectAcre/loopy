@@ -63,6 +63,15 @@ function Sidebar(loopy){
 			if(name=="" || name=="?") page.getComponent("label").select();
 
 		};
+		// TODO: make this actually work
+		page.addComponent("explodability", new ComponentSlider({
+			bg: "explode",
+			label: "Explode:",
+			options: [false, true],
+			oninput: function(value){
+				Node.defaultExplodable = value;
+			}
+		}));
 		deleteMeButton(self, page, "Delete Node");
 		self.addPage("Node", page);
 	})();
