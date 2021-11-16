@@ -69,6 +69,15 @@ function Sidebar(loopy){
 			if(name=="" || name=="?") page.getComponent("label").select();
 
 		};
+		page.addComponent("explodes",new ComponentSlider({
+			bg: "explodes",
+			label: "Explodes:",
+			value: true,
+			options: [false, true],
+			oninput: function(value) {
+				console.log("DOES Explode?: " + value);
+			}
+		}));
 		page.addComponent(new ComponentButton({
 			label: "delete node",
 			//label: "delete circle",
