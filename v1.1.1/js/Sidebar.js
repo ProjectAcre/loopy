@@ -57,18 +57,6 @@ function Sidebar(loopy){
 				Node.defaultValue = value;
 			}
 		}));
-		page.onedit = function(){
-
-			// Set color of Slider
-			var node = page.target;
-			var color = Node.COLORS[node.hue];
-			page.getComponent("init").setBGColor(color);
-
-			// Focus on the name field IF IT'S "" or "?"
-			var name = node.label;
-			if(name=="" || name=="?") page.getComponent("label").select();
-
-		};
 		page.addComponent("explodes",new ComponentSlider({
 			bg: "explodes",
 			label: "Explodes:",
@@ -78,6 +66,38 @@ function Sidebar(loopy){
 				console.log("DOES Explode?: " + value);
 			}
 		}));
+		page.addComponent("explodeUpper", new ComponentSlider({
+			bg: "initial",
+			label: "Exploding Upper Bound:",
+			options: [0, 0.16, 0.33, 0.50, 0.66, 0.83, 1],
+			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
+			oninput: function(value){
+				Node.defaultValue = value;
+			}
+		}));
+		page.addComponent("explodeLower", new ComponentSlider({
+			bg: "initial",
+			label: "Exploding Lower Bound:",
+			options: [0, 0.16, 0.33, 0.50, 0.66, 0.83, 1],
+			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
+			oninput: function(value){
+				Node.defaultValue = value;
+			}
+		}));
+		page.onedit = function(){
+
+			// Set color of Slider
+			var node = page.target;
+			var color = Node.COLORS[node.hue];
+			page.getComponent("init").setBGColor(color);
+			page.getComponent("explodeUpper").setBGColor(color);
+			page.getComponent("explodeLower").setBGColor(color);
+
+			// Focus on the name field IF IT'S "" or "?"
+			var name = node.label;
+			if(name=="" || name=="?") page.getComponent("label").select();
+
+		};
 		page.addComponent(new ComponentButton({
 			label: "delete node",
 			//label: "delete circle",

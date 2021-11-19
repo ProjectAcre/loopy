@@ -45,7 +45,7 @@ function Node(model, config){
 		radius: Node.DEFAULT_RADIUS,
 		explodable: false,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
-		defaultExplodeLowerThreshold: Node.defaultExplodeLowerThreshold,
+		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
 	});
 
 	// Value: from 0 to 1
@@ -106,7 +106,7 @@ function Node(model, config){
 			}
 
 			// Explode if exceeds limit
-			if(self.explodes && (self.value > 1 || self.value < 0)) {
+			if(self.explodes && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold)) {
 				self.exploded = true;
 			}
 		}
@@ -143,7 +143,7 @@ function Node(model, config){
 		}
 
 		// Explode if exceeded value
-		if(self.explodes && (self.value > 1 || self.value < 0)) {
+		if(self.explodes && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold)) {
 			self.exploded = true;
 		}
 
