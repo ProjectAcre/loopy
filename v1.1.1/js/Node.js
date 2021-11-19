@@ -12,11 +12,11 @@ Node.COLORS = {
 	4: "#7FD4FF", // blue
 	5: "#A97FFF" // purple
 };
-
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
 Node.defaultExplodes = false;
 Node.explodedColor = "#808080";
+Node.displayDebugText = false;
 
 Node.DEFAULT_RADIUS = 60;
 
@@ -46,6 +46,7 @@ function Node(model, config){
 		explodable: false,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
 		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
+		displayDebug: Node.displayDebugText 
 	});
 
 	// Value: from 0 to 1
@@ -119,6 +120,11 @@ function Node(model, config){
 	var _listenerReset = subscribe("model/reset", function(){
 		self.value = self.init;
 		self.exploded = false;
+	});
+	var _listenerDebugToggle = subscribe("debug/toggle", function(){
+		self.displayDebug = !self.displayDebug;
+		self.draw(self.model.context);
+		publish("mousemove")	// To force a page redraw, otherwise text will still be visible behind nodes
 	});
 
 	//////////////////////////////////////
@@ -292,12 +298,13 @@ function Node(model, config){
 	
 		var roundedValue = Math.round(self.value * 100) / 100; // Temp variable solely to cleanly display value
 		
-		// resize value text
-		self.fillSelfSizingText(ctx, r, roundedValue, 40); // Display value slightly below label.
+		if(self.displayDebug) {
+			// resize value text
+			self.fillSelfSizingText(ctx, r, roundedValue, 40); // Display value slightly below label.
 
-
-		// resize explody test
-		self.fillSelfSizingText(ctx, r, "" + self.explodes + ", " + self.exploded, 80);
+			// resize explody text
+			self.fillSelfSizingText(ctx, r, "" + self.explodes + ", " + self.exploded, 80);
+		}
 
 		// WOBBLE CONTROLS
 		var cl = 40;
@@ -355,6 +362,7 @@ function Node(model, config){
 		unsubscribe("mousedown",_listenerMouseDown);
 		unsubscribe("mouseup",_listenerMouseUp);
 		unsubscribe("model/reset",_listenerReset);
+		unsubscribe("debug/toggle",_listenerDebugToggle);
 
 		// Remove from parent!
 		model.removeNode(self);
