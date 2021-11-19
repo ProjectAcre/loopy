@@ -212,7 +212,7 @@ function Node(model, config){
 		_offsetAcc = (_offsetGoto-_offset)*_offsetHookes;
 
 		// TODO: Explode
-		if(self.explodable && self.value > self.explodeUpperThreshold || self.value < self.defaultExplodeLowerThreshold)
+		if(self.explodable && (self.value > self.explodeUpperThreshold || self.value < self.defaultExplodeLowerThreshold))
 		{
 			console.log("Node Exploded!");
 			self.kill(); //TODO: proper explosion consequences
