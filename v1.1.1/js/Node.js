@@ -107,7 +107,7 @@ function Node(model, config){
 			}
 
 			// Explode if exceeds limit
-			if(self.explodes && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold)) {
+			if(shouldExplode()) {
 				self.exploded = true;
 			}
 		}
@@ -210,16 +210,9 @@ function Node(model, config){
 		_offsetVel += _offsetAcc;
 		_offsetVel *= _offsetDamp;
 		_offsetAcc = (_offsetGoto-_offset)*_offsetHookes;
-
-		// TODO: Explode
-		if(self.shouldExplode())
-		{
-			console.log("Node Exploded!");
-			self.kill(); //TODO: proper explosion consequences
-		}
 	};
 	self.shouldExplode = function(){
-		return (self.explodable && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold));
+		return (self.explodes && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold));
 	}
 	// Draw
 	var _circleRadius = 0;
