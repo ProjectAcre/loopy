@@ -43,7 +43,6 @@ function Node(model, config){
 		explodes: Node.defaultExplodes,
 		hue: Node.defaultHue,
 		radius: Node.DEFAULT_RADIUS,
-		explodable: false,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
 		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
 		displayDebug: Node.displayDebugText 
