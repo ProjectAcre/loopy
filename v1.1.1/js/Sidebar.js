@@ -72,9 +72,9 @@ function Sidebar(loopy){
 			}
 		}));
 		page.addComponent("explodeLower", new ComponentSlider({
-			bg: "initial",
+			bg: "explodeLower",
 			label: "Exploding Lower Bound:",
-			options: [0, 0.16, 0.33, 0.50, 0.66, 0.83, 1],
+			options: [0, -1, -5, -10, -100, -1000, -Infinity],
 			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
 			oninput: function(value){
 				Node.defaultValue = value;

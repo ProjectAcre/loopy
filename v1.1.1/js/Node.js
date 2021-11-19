@@ -20,7 +20,7 @@ Node.explodedColor = "#808080";
 
 Node.DEFAULT_RADIUS = 60;
 
-Node.defaultExplodeUpperThreshold = 10;
+Node.defaultExplodeUpperThreshold = 1;
 Node.defaultExplodeLowerThreshold = 0;
 
 function Node(model, config){
