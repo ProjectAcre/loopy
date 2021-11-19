@@ -65,8 +65,7 @@ function Sidebar(loopy){
 		page.addComponent("explodeUpperThreshold", new ComponentSlider({
 			bg: "explodeUpper",
 			label: "Exploding Upper Bound:",
-			options: [1, 5, 10, 25, 100, 1000, Infinity],
-			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
+			options: [1, 5, 10, 25, 100, 1000, 2147483647],
 			oninput: function(value){
 				Node.defaultValue = value;
 			}
@@ -74,8 +73,8 @@ function Sidebar(loopy){
 		page.addComponent("explodeLowerThreshold", new ComponentSlider({
 			bg: "explodeLower",
 			label: "Exploding Lower Bound:",
-			options: [0, -1, -5, -10, -100, -1000, -Infinity],
-			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
+			options: [0, -1, -5, -10, -100, -1000, -2147483648],
+			//options: [0, 1, 5, 10, 100, 1000, 2147483647],
 			oninput: function(value){
 				Node.defaultValue = value;
 			}

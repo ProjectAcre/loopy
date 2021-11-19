@@ -271,7 +271,9 @@ function Model(loopy){
 				node.init,
 				encodeURIComponent(encodeURIComponent(node.label)),
 				node.hue,
-				node.explodes
+				node.explodes,
+				node.explodeUpperThreshold,
+				node.explodeLowerThreshold,
 			]);
 		}
 		data.push(nodes);
@@ -346,7 +348,9 @@ function Model(loopy){
 				init: node[3],
 				label: decodeURIComponent(node[4]),
 				hue: node[5],
-				explodes: node[6]
+				explodes: node[6],
+				explodeUpperThreshold: node[7],
+				explodeLowerThreshold: node[8]
 			});
 		}
 
