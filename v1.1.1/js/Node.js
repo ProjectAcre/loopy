@@ -20,6 +20,9 @@ Node.displayDebugText = false;
 
 Node.DEFAULT_RADIUS = 60;
 
+Node.defaultExplodeUpperThreshold = 1;
+Node.defaultExplodeLowerThreshold = 0;
+
 function Node(model, config){
 
 	var self = this;
@@ -40,6 +43,8 @@ function Node(model, config){
 		explodes: Node.defaultExplodes,
 		hue: Node.defaultHue,
 		radius: Node.DEFAULT_RADIUS,
+		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
+		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
 		displayDebug: Node.displayDebugText 
 	});
 
@@ -55,6 +60,7 @@ function Node(model, config){
 		if(self.value<-buffer) self.value=-buffer;
 		if(self.value>1+buffer) self.value=1+buffer;*/
 	};
+
 
 	// MOUSE.
 	var _controlsVisible = false;
@@ -100,7 +106,7 @@ function Node(model, config){
 			}
 
 			// Explode if exceeds limit
-			if(self.explodes && (self.value > 1 || self.value < 0)) {
+			if(shouldExplode()) {
 				self.exploded = true;
 			}
 		}
@@ -142,7 +148,7 @@ function Node(model, config){
 		}
 
 		// Explode if exceeded value
-		if(self.explodes && (self.value > 1 || self.value < 0)) {
+		if(self.shouldExplode()) {
 			self.exploded = true;
 		}
 
@@ -203,13 +209,13 @@ function Node(model, config){
 		_offsetVel += _offsetAcc;
 		_offsetVel *= _offsetDamp;
 		_offsetAcc = (_offsetGoto-_offset)*_offsetHookes;
-
 	};
-
+	self.shouldExplode = function(){
+		return (self.explodes && (self.value > self.explodeUpperThreshold || self.value < self.explodeLowerThreshold));
+	}
 	// Draw
 	var _circleRadius = 0;
 	self.draw = function(ctx){
-
 		// Retina
 		var x = self.x*2;
 		var y = self.y*2;

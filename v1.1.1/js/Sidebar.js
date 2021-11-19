@@ -29,13 +29,9 @@ function Sidebar(loopy){
 	// Node!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+
+		backToTopButton(self, page);
+
 		page.addComponent("label", new ComponentInput({
 			label: "<br><br>Name:"
 			//label: "Name:"
@@ -57,18 +53,6 @@ function Sidebar(loopy){
 				Node.defaultValue = value;
 			}
 		}));
-		page.onedit = function(){
-
-			// Set color of Slider
-			var node = page.target;
-			var color = Node.COLORS[node.hue];
-			page.getComponent("init").setBGColor(color);
-
-			// Focus on the name field IF IT'S "" or "?"
-			var name = node.label;
-			if(name=="" || name=="?") page.getComponent("label").select();
-
-		};
 		page.addComponent("explodes",new ComponentSlider({
 			bg: "explodes",
 			label: "Explodes:",
@@ -78,27 +62,46 @@ function Sidebar(loopy){
 				console.log("DOES Explode?: " + value);
 			}
 		}));
-		page.addComponent(new ComponentButton({
-			label: "delete node",
-			//label: "delete circle",
-			onclick: function(node){
-				node.kill();
-				self.showPage("Edit");
+		page.addComponent("explodeUpperThreshold", new ComponentSlider({
+			bg: "explodeUpper",
+			label: "Exploding Upper Bound:",
+			options: [1, 5, 10, 25, 100, 1000, 2147483647],
+			oninput: function(value){
+				Node.defaultValue = value;
 			}
 		}));
+		page.addComponent("explodeLowerThreshold", new ComponentSlider({
+			bg: "explodeLower",
+			label: "Exploding Lower Bound:",
+			options: [0, -1, -5, -10, -100, -1000, -2147483648],
+			//options: [0, 1, 5, 10, 100, 1000, 2147483647],
+			oninput: function(value){
+				Node.defaultValue = value;
+			}
+		}));
+		page.onedit = function(){
+
+			// Set color of Slider
+			var node = page.target;
+			var color = Node.COLORS[node.hue];
+			page.getComponent("init").setBGColor(color);
+			page.getComponent("explodeUpperThreshold").setBGColor(color);
+			page.getComponent("explodeLowerThreshold").setBGColor(color);
+
+			// Focus on the name field IF IT'S "" or "?"
+			var name = node.label;
+			if(name=="" || name=="?") page.getComponent("label").select();
+
+		};
+		deleteMeButton(self, page, "delete node");
 		self.addPage("Node", page);
 	})();
 
 	// Edge!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+		backToTopButton(self, page);
+
 		page.addComponent("strength", new ComponentSlider({
 			bg: "strength",
 			label: "<br><br>Relationship:",
@@ -112,28 +115,15 @@ function Sidebar(loopy){
 			html: "(to make a stronger relationship, draw multiple arrows!)<br><br>"+
 			"(to make a delayed relationship, draw longer arrows)"
 		}));
-		page.addComponent(new ComponentButton({
-			//label: "delete edge",
-			label: "delete arrow",
-			//label: "delete relationship",
-			onclick: function(edge){
-				edge.kill();
-				self.showPage("Edit");
-			}
-		}));
+		deleteMeButton(self, page, "delete arrow");
 		self.addPage("Edge", page);
 	})();
 
 	// Label!
 	(function(){
 		var page = new SidebarPage();
-		page.addComponent(new ComponentButton({
-			header: true,
-			label: "back to top",
-			onclick: function(){
-				self.showPage("Edit");
-			}
-		}));
+		backToTopButton(self, page);
+
 		page.addComponent("text", new ComponentInput({
 			label: "<br><br>Label:",
 			//label: "Label:",
@@ -158,13 +148,7 @@ function Sidebar(loopy){
 			}
 
 		};
-		page.addComponent(new ComponentButton({
-			label: "delete label",
-			onclick: function(label){
-				label.kill();
-				self.showPage("Edit");
-			}
-		}));
+		deleteMeButton(self, page, "delete label");
 		self.addPage("Label", page);
 	})();
 
@@ -207,6 +191,27 @@ function Sidebar(loopy){
 		}
 	});
 
+}
+
+// Taking a note out of 1000i100's book in refactoring
+function backToTopButton(sidebar, page){
+	page.addComponent(new ComponentButton({
+		header: true,
+		label: "back to top",
+		onclick: function(){
+			sidebar.showPage("Edit");
+		}
+	}));
+}
+
+function deleteMeButton(sidebar, page, label){
+	page.addComponent(new ComponentButton({
+		label: label,
+		onclick: function(me){
+			me.kill();
+			sidebar.showPage("Edit");
+		}
+	}))
 }
 
 function SidebarPage(){
