@@ -63,7 +63,7 @@ function Sidebar(loopy){
 			}
 		}));
 		page.addComponent("explodeUpper", new ComponentSlider({
-			bg: "initial",
+			bg: "explodeUpper",
 			label: "Exploding Upper Bound:",
 			options: [1, 5, 10, 25, 100, 1000, Infinity],
 			//options: [0, 1/6, 2/6, 3/6, 4/6, 5/6, 1],
