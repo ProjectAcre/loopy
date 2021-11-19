@@ -62,7 +62,7 @@ function Sidebar(loopy){
 				console.log("DOES Explode?: " + value);
 			}
 		}));
-		page.addComponent("explodeUpper", new ComponentSlider({
+		page.addComponent("explodeUpperThreshold", new ComponentSlider({
 			bg: "explodeUpper",
 			label: "Exploding Upper Bound:",
 			options: [1, 5, 10, 25, 100, 1000, Infinity],
@@ -71,7 +71,7 @@ function Sidebar(loopy){
 				Node.defaultValue = value;
 			}
 		}));
-		page.addComponent("explodeLower", new ComponentSlider({
+		page.addComponent("explodeLowerThreshold", new ComponentSlider({
 			bg: "explodeLower",
 			label: "Exploding Lower Bound:",
 			options: [0, -1, -5, -10, -100, -1000, -Infinity],
@@ -86,8 +86,8 @@ function Sidebar(loopy){
 			var node = page.target;
 			var color = Node.COLORS[node.hue];
 			page.getComponent("init").setBGColor(color);
-			page.getComponent("explodeUpper").setBGColor(color);
-			page.getComponent("explodeLower").setBGColor(color);
+			page.getComponent("explodeUpperThreshold").setBGColor(color);
+			page.getComponent("explodeLowerThreshold").setBGColor(color);
 
 			// Focus on the name field IF IT'S "" or "?"
 			var name = node.label;
