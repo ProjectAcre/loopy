@@ -288,7 +288,7 @@ function Node(model, config){
 		ctx.fillStyle = "#000";
 	
 		// resize label text
-		self.fillSelfSizingText(ctx, r, self.label, 0);
+		self.fillSelfSizingText(ctx, r, self.label);
 	
 		var roundedValue = Math.round(self.value * 100) / 100; // Temp variable solely to cleanly display value
 		
@@ -333,7 +333,7 @@ function Node(model, config){
 
 	};
 
-	self.fillSelfSizingText = function(ctx, r, text, y_displacement) {
+	self.fillSelfSizingText = function(ctx, r, text, y_displacement = 0) {
 		var fontsize = 40;
 		ctx.font = "normal "+fontsize+"px sans-serif";
 		var textWidth = ctx.measureText(text).width;
