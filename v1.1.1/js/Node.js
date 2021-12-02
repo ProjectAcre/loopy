@@ -45,7 +45,8 @@ function Node(model, config){
 		radius: Node.DEFAULT_RADIUS,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
 		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
-		displayDebug: Node.displayDebugText 
+		displayDebug: Node.displayDebugText,
+		clampedVal: Node.defaultValue
 	});
 
 	// Value: from 0 to 1
@@ -273,6 +274,8 @@ function Node(model, config){
 				_value = 1 - (1/self.value)*0.1;
 			}
 		}
+		
+		self.clampedVal = _value;
 
 		// Colored bubble
 		ctx.beginPath();

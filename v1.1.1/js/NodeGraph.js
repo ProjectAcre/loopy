@@ -29,7 +29,9 @@ function NodeGraph(model) {
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    min: 0,
+                    max: 1
                 }
             }
         }
@@ -53,7 +55,7 @@ function NodeGraph(model) {
             self.chart.data.labels.push(seconds);
             for (let i = 0; i < n; i++)
             {     
-                self.chart.data.datasets[i].data.push({x: (seconds), y: nodes[i].value});
+                self.chart.data.datasets[i].data.push({x: (seconds), y: nodes[i].clampedVal});
             }
          }
 
