@@ -210,7 +210,8 @@ function Model(loopy){
 		_canvasDirty = false;
 
 		//Graph real time?
-		self.graph.draw();
+		if(self.loopy.mode!=Loopy.MODE_EDIT)
+			self.graph.draw();
 
 		// Clear!
 		ctx.clearRect(0,0,self.canvas.width,self.canvas.height);

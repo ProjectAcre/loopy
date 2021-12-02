@@ -34,7 +34,7 @@ function NodeGraph(model) {
             }
         }
     });
-    fps = 15; // The fps that, for some god-forsaken reason, was hard-coded.
+    fps = 30; // The fps that, for some god-forsaken reason, was hard-coded.
     ticks = 0; // Literally the number of frames corresponding to the x axis
     self.draw = function() {
         n = nodes.length;
