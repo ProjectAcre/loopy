@@ -8,31 +8,33 @@ function NodeGraph(model) {
     var self = this;
     self.loopy = model.loopy;
     self.model = model;
+
     var canvas = _createCanvas('NodeGraph', 300, 200, 'graph_canvas');
     const ctx = canvas.getContext('2d');
+
+    // Get information from nodes
+    var nodes = model.nodes;
+    var n = nodes.length;
+    backgroundColors = []
+    labels = []
+    data = []
+    for (let i = 0; i < n; i++)
+    {
+        console.log(nodes[i].color);
+        backgroundColors.push(nodes[i].backgroundColor);
+        labels.push(nodes[i].label);
+        data.push(nodes[i].value);
+    }
+   
     const chart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            labels: labels,
             datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
+                label: 'Value',
+                data: data,
+                backgroundColor: backgroundColors,
+                borderColor: backgroundColors,
                 borderWidth: 1
             }]
         },

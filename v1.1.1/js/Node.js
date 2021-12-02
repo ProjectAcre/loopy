@@ -220,7 +220,7 @@ function Node(model, config){
 		var x = self.x*2;
 		var y = self.y*2;
 		var r = self.radius*2;
-		var color = Node.COLORS[self.hue];
+		self.color = Node.COLORS[self.hue];
 
 		// Modify color if exploded
 		if(self.exploded) {
@@ -245,7 +245,7 @@ function Node(model, config){
 		ctx.fillStyle = "#fff";
 		ctx.fill();
 		ctx.lineWidth = 6;
-		ctx.strokeStyle = color;
+		ctx.strokeStyle = self.color;
 		ctx.stroke();
 		
 		// Circle radius
@@ -279,7 +279,7 @@ function Node(model, config){
 		var _circleRadiusGoto = r*_value; // radius
 		_circleRadius = _circleRadius*0.8 + _circleRadiusGoto*0.2;
 		ctx.arc(0, 0, _circleRadius, 0, Math.TAU, false);
-		ctx.fillStyle = color;
+		ctx.fillStyle = self.color;
 		ctx.fill();
 
 		// Text!

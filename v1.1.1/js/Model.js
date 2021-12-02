@@ -164,7 +164,7 @@ function Model(loopy){
 
 		// Dirty!
 		_canvasDirty = true;
-
+		
 	};
 
 	// SHOULD WE DRAW?
@@ -205,10 +205,13 @@ function Model(loopy){
 		// DRAW???????
 		drawCountdown--;
 		if(drawCountdown<=0) return;
-
+		
 		// Also only draw if last updated...
 		if(!_canvasDirty) return;
 		_canvasDirty = false;
+
+		//Graph real time?
+		self.graph = NodeGraph(self);
 
 		// Clear!
 		ctx.clearRect(0,0,self.canvas.width,self.canvas.height);
