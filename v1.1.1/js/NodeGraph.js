@@ -9,7 +9,7 @@ function NodeGraph(model) {
     self.loopy = model.loopy;
     self.model = model;
 
-    var canvas = _createCanvas('NodeGraph', 300, 200, 'graph_canvas');
+    var canvas = _createCanvas('NodeGraph', 1600, 1400, 'graph_canvas');
     const ctx = canvas.getContext('2d');
 
     // Get information from nodes
@@ -18,7 +18,6 @@ function NodeGraph(model) {
     backgroundColors = []
     labels = []
     nodeData = []
-    console.log(n);
     // For some reason, this simply does not initialize it.
     for (let i = 0; i < n; i++)
     {
@@ -29,16 +28,10 @@ function NodeGraph(model) {
     }
    
     self.chart = new Chart(ctx, {
-        type: 'bar',
+        type: 'line',
         data: {
             labels: labels,
-            datasets: [{
-                label: 'Value',
-                data: nodeData,
-                backgroundColor: backgroundColors,
-                borderColor: backgroundColors,
-                borderWidth: 1
-            }]
+            datasets: []
         },
         options: {
             scales: {
@@ -52,16 +45,33 @@ function NodeGraph(model) {
     self.draw = function() {
         currentLabels = []
         currentData = []
-        var n = nodes .length;
-        for (let i = 0; i < n; i++)
+        nodeColors = []
+        var n = nodes.length;
+        if(n==0) return;
+        // Force initialize here, because initialization doesn't want to work properly
+        // Has the benefit of adapting to erased nodes
+        if(n != self.chart.data.datasets.length)
         {
-            //console.log(nodes[i].color);
-            //backgroundColors.push(nodes[i].backgroundColor);
-            currentLabels.push(nodes[i].label);
-            currentData.push(nodes[i].value);
+            self.chart.data.datasets = [];
+            for (let i = 0; i < n; i++)
+            {
+                self.chart.data.datasets.push({
+                    label: nodes[i].label,
+                    data: [65, 59, 80, 81, 56, 55, 40],
+                    borderColor: nodes[i].color,
+                    fillColor: nodes[i].color,
+                    borderWidth: 1
+                });
+            }
         }
-        self.chart.data.labels= currentLabels;
-        self.chart.data.datasets[0].data = currentData;
+        for (let i = 0; i < n; i++)
+        {          
+            self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
+            self.chart.data.datasets[i].fillColor = nodes[i].color; // Update color as well
+            self.chart.data.datasets[i].borderColor = nodes[i].color;
+            self.chart.data.datasets[i].data.push(nodes[i].value);
+        }
+
         self.chart.update();
     };
 };

@@ -221,7 +221,7 @@ function Node(model, config){
 		var y = self.y*2;
 		var r = self.radius*2;
 		self.color = Node.COLORS[self.hue];
-
+		
 		// Modify color if exploded
 		if(self.exploded) {
 			color = Node.explodedColor;
