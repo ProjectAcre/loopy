@@ -50,9 +50,18 @@ function NodeGraph(model) {
     });
 
     self.draw = function() {
-        testdata = [0.5,1]
-        self.chart.data.labels=["Tom", "Jerry"];
-        self.chart.data.datasets[0].data = testdata;
+        currentLabels = []
+        currentData = []
+        var n = nodes .length;
+        for (let i = 0; i < n; i++)
+        {
+            //console.log(nodes[i].color);
+            //backgroundColors.push(nodes[i].backgroundColor);
+            currentLabels.push(nodes[i].label);
+            currentData.push(nodes[i].value);
+        }
+        self.chart.data.labels= currentLabels;
+        self.chart.data.datasets[0].data = currentData;
         self.chart.update();
     };
 };
