@@ -182,7 +182,7 @@ function Model(loopy){
 
 	// OR RESIZE or RESET
 	subscribe("resize",function(){ drawCountdown=drawCountdownFull; });
-	subscribe("model/reset",function(){ drawCountdown=drawCountdownFull; });
+	subscribe("model/reset",function(){ drawCountdown=drawCountdownFull; self.graph.reset();}); // Sorry I didn't know where else to put the graph reset function
 	subscribe("loopy/mode",function(){
 		if(loopy.mode==Loopy.MODE_PLAY){
 			drawCountdown=drawCountdownFull*2;

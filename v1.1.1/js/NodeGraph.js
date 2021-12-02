@@ -14,23 +14,16 @@ function NodeGraph(model) {
 
     // Get information from nodes
     var nodes = model.nodes;
-    var n = nodes.length;
+    var n = 0; // number of nodes
     backgroundColors = []
     labels = []
     nodeData = []
-    // For some reason, this simply does not initialize it.
-    for (let i = 0; i < n; i++)
-    {
-        console.log(nodes[i].color);
-        backgroundColors.push(nodes[i].backgroundColor);
-        labels.push(nodes[i].label);
-        nodeData.push(nodes[i].value);
-    }
+    
    
     self.chart = new Chart(ctx, {
         type: 'line',
         data: {
-            labels: labels,
+            labels: [],
             datasets: []
         },
         options: {
@@ -41,37 +34,53 @@ function NodeGraph(model) {
             }
         }
     });
-
+    fps = 15; // The fps that, for some god-forsaken reason, was hard-coded.
+    ticks = 0; // Literally the number of frames corresponding to the x axis
     self.draw = function() {
-        currentLabels = []
-        currentData = []
-        nodeColors = []
-        var n = nodes.length;
+        n = nodes.length;
         if(n==0) return;
         // Force initialize here, because initialization doesn't want to work properly
         // Has the benefit of adapting to erased nodes
         if(n != self.chart.data.datasets.length)
         {
-            self.chart.data.datasets = [];
+           self.reset();
+        }
+        // Restrain how rapidly this thing updates! This section will lag the program to death if updated every frame.
+        if(ticks % fps == 0){
+                
+            // Update time marker
+            seconds = ticks/fps;
+            self.chart.data.labels.push(seconds);
             for (let i = 0; i < n; i++)
-            {
-                self.chart.data.datasets.push({
-                    label: nodes[i].label,
-                    data: [{x: 1, y: 59}, {x: 2, y: 81}, { x: 3, y : 55}],
-                    borderColor: nodes[i].color,
-                    backgroundColor: nodes[i].color,
-                    borderWidth: 1
-                });
+            {     
+                self.chart.data.datasets[i].data.push({x: (seconds), y: nodes[i].value});
             }
-        }
-        for (let i = 0; i < n; i++)
-        {          
-            self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
-            self.chart.data.datasets[i].fillColor = nodes[i].color; // Update color as well
-            self.chart.data.datasets[i].borderColor = nodes[i].color;
-            self.chart.data.datasets[i].data.push(nodes[i].value);
-        }
+         }
 
+        // Less intensive update; can afford to do every frame
+        for (let i = 0; i < n; i++)
+            {     
+                self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
+                self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+                self.chart.data.datasets[i].borderColor = nodes[i].color;
+            }
+        ticks++;
         self.chart.update();
+    };
+
+    self.reset = function(){
+        ticks = 0;
+        self.chart.data.labels=[];
+        self.chart.data.datasets = [];
+        for (let i = 0; i < n; i++)
+        {
+            self.chart.data.datasets.push({
+                label: nodes[i].label,
+                data: [],
+                borderColor: nodes[i].color,
+                backgroundColor: nodes[i].color,
+                borderWidth: 1
+            });
+        }
     };
 };
