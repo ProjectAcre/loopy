@@ -57,9 +57,9 @@ function NodeGraph(model) {
             {
                 self.chart.data.datasets.push({
                     label: nodes[i].label,
-                    data: [65, 59, 80, 81, 56, 55, 40],
+                    data: [{x: 1, y: 59}, {x: 2, y: 81}, { x: 3, y : 55}],
                     borderColor: nodes[i].color,
-                    fillColor: nodes[i].color,
+                    backgroundColor: nodes[i].color,
                     borderWidth: 1
                 });
             }
