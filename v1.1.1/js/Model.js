@@ -115,7 +115,7 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
-
+	
 
 	///////////////////
 	// LABELS /////////
@@ -192,7 +192,6 @@ function Model(loopy){
 	});
 
 	self.draw = function(){
-
 		// SHOULD WE DRAW?
 		// ONLY IF ARROW-SIGNALS ARE MOVING
 		for(var i=0;i<self.edges.length;i++){
@@ -211,7 +210,7 @@ function Model(loopy){
 		_canvasDirty = false;
 
 		//Graph real time?
-		self.graph = NodeGraph(self);
+		self.graph.draw();
 
 		// Clear!
 		ctx.clearRect(0,0,self.canvas.width,self.canvas.height);

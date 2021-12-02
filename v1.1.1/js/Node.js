@@ -106,7 +106,7 @@ function Node(model, config){
 			}
 
 			// Explode if exceeds limit
-			if(shouldExplode()) {
+			if(self.shouldExplode()) {
 				self.exploded = true;
 			}
 		}

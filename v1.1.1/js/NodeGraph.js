@@ -17,22 +17,24 @@ function NodeGraph(model) {
     var n = nodes.length;
     backgroundColors = []
     labels = []
-    data = []
+    nodeData = []
+    console.log(n);
+    // For some reason, this simply does not initialize it.
     for (let i = 0; i < n; i++)
     {
         console.log(nodes[i].color);
         backgroundColors.push(nodes[i].backgroundColor);
         labels.push(nodes[i].label);
-        data.push(nodes[i].value);
+        nodeData.push(nodes[i].value);
     }
    
-    const chart = new Chart(ctx, {
+    self.chart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: labels,
             datasets: [{
                 label: 'Value',
-                data: data,
+                data: nodeData,
                 backgroundColor: backgroundColors,
                 borderColor: backgroundColors,
                 borderWidth: 1
@@ -46,4 +48,11 @@ function NodeGraph(model) {
             }
         }
     });
-}
+
+    self.draw = function() {
+        testdata = [0.5,1]
+        self.chart.data.labels=["Tom", "Jerry"];
+        self.chart.data.datasets[0].data = testdata;
+        self.chart.update();
+    };
+};
