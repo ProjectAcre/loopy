@@ -110,12 +110,7 @@ function Model(loopy){
 
 
 
-
-	///////////////////
-	// NODE GRAPH /////
-	///////////////////
-	self.graph = new NodeGraph(self);
-
+	
 
 	///////////////////
 	// LABELS /////////
@@ -164,9 +159,14 @@ function Model(loopy){
 
 		// Dirty!
 		_canvasDirty = true;
-
+		
 	};
-
+	
+	///////////////////
+	// NODE GRAPH /////
+	///////////////////
+	self.graph = new NodeGraph(self);
+	
 	// SHOULD WE DRAW?
 	var drawCountdownFull = 60; // two-second buffer!
 	var drawCountdown = drawCountdownFull; 
@@ -182,7 +182,7 @@ function Model(loopy){
 
 	// OR RESIZE or RESET
 	subscribe("resize",function(){ drawCountdown=drawCountdownFull; });
-	subscribe("model/reset",function(){ drawCountdown=drawCountdownFull; });
+	subscribe("model/reset",function(){ drawCountdown=drawCountdownFull; self.graph.reset();}); // Sorry I didn't know where else to put the graph reset function
 	subscribe("loopy/mode",function(){
 		if(loopy.mode==Loopy.MODE_PLAY){
 			drawCountdown=drawCountdownFull*2;
@@ -192,7 +192,6 @@ function Model(loopy){
 	});
 
 	self.draw = function(){
-
 		// SHOULD WE DRAW?
 		// ONLY IF ARROW-SIGNALS ARE MOVING
 		for(var i=0;i<self.edges.length;i++){
@@ -205,10 +204,14 @@ function Model(loopy){
 		// DRAW???????
 		drawCountdown--;
 		if(drawCountdown<=0) return;
-
+		
 		// Also only draw if last updated...
 		if(!_canvasDirty) return;
 		_canvasDirty = false;
+
+		//Graph real time?
+		if(self.loopy.mode!=Loopy.MODE_EDIT)
+			self.graph.draw();
 
 		// Clear!
 		ctx.clearRect(0,0,self.canvas.width,self.canvas.height);
