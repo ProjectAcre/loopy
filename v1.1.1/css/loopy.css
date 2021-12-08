@@ -13,6 +13,14 @@ canvas{
 	top:0; left:0;
 }
 
+#graph_canvas {
+	position:absolute;
+	top: 10px;
+	left: 100px;
+	width: 200px;
+	height: 100px;
+}
+
 #canvasses{
 	position:absolute;
 	top:0; left:0;

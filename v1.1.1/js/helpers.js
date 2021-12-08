@@ -26,28 +26,29 @@ window.onbeforeunload = function(e) {
 	}
 };
 
-function _createCanvas(){
+function _createCanvas(id = '', width = 0, height = 0, parent = 'canvasses'){
 
-	var canvasses = document.getElementById("canvasses");
+	var canvasses = document.getElementById(parent);
 	var canvas = document.createElement("canvas");
+	if(id!=='') canvas.setAttribute('id', id);
 
 	// Dimensions
-	var _onResize = function(){
-		var width = canvasses.clientWidth;
-		var height = canvasses.clientHeight;
+	var _onResize = function(w, h){
+		var width = w === 0 ? canvasses.clientWidth : w;
+		var height = h === 0 ? canvasses.clientHeight : h;
 		canvas.width = width*2; // retina
 		canvas.style.width = width+"px";
 		canvas.height = height*2; // retina
 		canvas.style.height = height+"px";
 	};
-	_onResize();
+	_onResize(width, height);
 
 	// Add to body!
 	canvasses.appendChild(canvas);
 
 	// subscribe to RESIZE
 	subscribe("resize",function(){
-		_onResize();
+		_onResize(width, height);
 	});
 
 	// Gimme
