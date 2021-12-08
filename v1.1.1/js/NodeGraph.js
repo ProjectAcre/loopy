@@ -36,8 +36,10 @@ function NodeGraph(model) {
             }
         }
     });
-    fps = 30; // The fps that, for some god-forsaken reason, was hard-coded.
-    ticks = 0; // Literally the number of frames corresponding to the x axis
+
+    fps = 30; // The fps that, for some god-forsaken reason, was hard-coded into loopy.
+    ticks = 0; // Literally the number of frames corresponding to the x axis.
+    
     self.draw = function() {
         n = nodes.length;
         if(n==0) return;
@@ -54,18 +56,16 @@ function NodeGraph(model) {
             seconds = ticks/fps;
             self.chart.data.labels.push(seconds);
             for (let i = 0; i < n; i++)
-            {     
+            {   
+                // Update data  
                 self.chart.data.datasets[i].data.push({x: (seconds), y: nodes[i].clampedVal});
-            }
-         }
 
-        // Less intensive update; can afford to do every frame
-        for (let i = 0; i < n; i++)
-            {     
                 self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
                 self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
                 self.chart.data.datasets[i].borderColor = nodes[i].color;
             }
+         }
+
         ticks++;
         self.chart.update();
     };
