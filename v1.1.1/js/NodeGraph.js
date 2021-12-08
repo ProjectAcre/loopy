@@ -33,8 +33,15 @@ function NodeGraph(model) {
                     min: 0,
                     max: 1
                 }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right',
+                    align: 'start',
+                }
             }
-        }
+        },
     });
 
     fps = 30; // The fps that, for some god-forsaken reason, was hard-coded into loopy.
