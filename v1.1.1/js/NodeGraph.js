@@ -39,7 +39,8 @@ function NodeGraph(model) {
 
     fps = 30; // The fps that, for some god-forsaken reason, was hard-coded into loopy.
     ticks = 0; // Literally the number of frames corresponding to the x axis.
-    
+    maxChartLength = 15; // How many seconds should pass, or rather data points added, before removing tail end.
+
     self.draw = function() {
         n = nodes.length;
         if(n==0) return;
@@ -55,19 +56,32 @@ function NodeGraph(model) {
             // Update time marker
             seconds = ticks/fps;
             self.chart.data.labels.push(seconds);
+
+            // Hate that this if statement is repeated but can't think of a better way to handle this immediately
+            if(seconds > maxChartLength)
+            {
+                // Remove the label corresponding with old data
+                self.chart.data.labels.shift();
+            }
+
             for (let i = 0; i < n; i++)
             {   
                 // Update data  
                 self.chart.data.datasets[i].data.push({x: (seconds), y: nodes[i].clampedVal});
-
+                if(seconds > maxChartLength)
+                {
+                    // Remove old data.
+                    self.chart.data.datasets[i].data.shift();
+                }
+                
                 self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
                 self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
                 self.chart.data.datasets[i].borderColor = nodes[i].color;
             }
          }
 
-        ticks++;
-        self.chart.update();
+        ticks++; // Increment ticks for slowed update
+        self.chart.update('none'); // Unfortunately, chart has to update without animation to show points scrolling.
     };
 
     self.reset = function(){
