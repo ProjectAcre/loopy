@@ -166,7 +166,7 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
-	
+
 	// SHOULD WE DRAW?
 	var drawCountdownFull = 60; // two-second buffer!
 	var drawCountdown = drawCountdownFull; 

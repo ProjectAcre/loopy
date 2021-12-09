@@ -107,4 +107,15 @@ function NodeGraph(model) {
             });
         }
     };
+
+    var _listenderVisibleToggle = subscribe("graph/toggleVisible", function(){
+        if(canvas.style.display == 'block')
+        {
+            canvas.style.display = 'none';
+        }
+        else if(canvas.style.display == 'none')
+        {
+            canvas.style.display = 'block';
+        }
+    });
 };
