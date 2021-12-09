@@ -4,6 +4,8 @@ TOOLBAR CODE
 
 **********************************/
 
+const { _adapters } = require("chart.js");
+
 function Toolbar(loopy){
 
 	var self = this;
@@ -85,6 +87,21 @@ function Toolbar(loopy){
 			self.setTool("erase");
 		}
 	});
+	self.addButton({
+		id: "template",
+		tooltip: "TE(M)PLATE",
+		callback: function() {
+			self.openTemplates();
+		}
+	})
+
+	// Open templates
+	self.openTemplates = function(){
+		console.log("Here, we open up a 3x3 grid.");
+		// TODO: create 3x3 grid of buttons that are each their own template tool. 
+		// Double TODO: somehow link these to the existing templates
+	};
+
 
 	// Select button
 	buttonsByID.ink.callback();
