@@ -9,7 +9,7 @@ function NodeGraph(model) {
     self.loopy = model.loopy;
     self.model = model;
 
-    var canvas = _createCanvas('NodeGraph', 16000, 14000, 'graph_canvas');
+    var canvas = _createCanvas('NodeGraph', 1600, 1400, 'graph_canvas');
     const ctx = canvas.getContext('2d');
 
     // Get information from nodes
