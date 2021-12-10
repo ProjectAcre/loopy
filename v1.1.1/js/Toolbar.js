@@ -4,8 +4,6 @@ TOOLBAR CODE
 
 **********************************/
 
-const { _adapters } = require("chart.js");
-
 function Toolbar(loopy){
 
 	var self = this;
@@ -14,7 +12,9 @@ function Toolbar(loopy){
 	var buttons = [];
 	var buttonsByID = {};
 	self.dom = document.getElementById("toolbar");
-	self.addButton = function(options){
+	self.templatesBar = document.getElementById("templatesbar"); // What even is a "dom"?
+	self.dom.appendChild(self.templatesBar);
+	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
 		var tooltip = options.tooltip;
@@ -27,7 +27,7 @@ function Toolbar(loopy){
 			tooltip: tooltip,
 			callback: callback
 		});
-		self.dom.appendChild(button.dom);
+		dom.appendChild(button.dom);
 		buttons.push(button);
 		buttonsByID[id] = button;
 
@@ -94,6 +94,66 @@ function Toolbar(loopy){
 			self.openTemplates();
 		}
 	})
+	totalTemplates = 5; // Todo: not hard-coded?
+	for(let i = 0; i < totalTemplates; i++)
+	{
+		self.addButton({
+			id: "template" + i.toString(),
+			tooltip: "TEMPLATE (" + (i+1) + ")",
+			callback: function() {
+				console.log("I am template " + i);
+			}
+		},self.templatesBar)
+	}
+	console.log(self.dom);
+	console.log(self.templatesBar);
+	// Create template grid
+	/*
+	var totalTemplates = 9; // Todo: not hard-coded?
+	var grid = TemplateGrid(self);
+	console.log(grid);
+	// grid.buttons = [];
+	for(let i = 0; i < totalTemplates; i++)
+	{
+		// Individual Template button
+		id = "template" + i;
+		var button = new ToolbarButton(self,{
+			id: id,
+			icon: "css/icons/"+id+".png",
+			tooltip: "Template (" + i + ")",
+			callback: function(){console.log("Selected Template " + i);}
+		});
+		grid.dom.appendChild(button.dom);
+		// grid.buttons.push(button); // In case it needs tracking?
+	}
+	self.dom.appendChild(grid.dom);
+	*/
+	self.addButton = function(options){
+
+		var id = options.id;
+		var tooltip = options.tooltip;
+		var callback = options.callback;
+
+		// Add the button
+		var button = new ToolbarButton(self,{
+			id: id,
+			icon: "css/icons/"+id+".png",
+			tooltip: tooltip,
+			callback: callback
+		});
+		self.dom.appendChild(button.dom);
+		buttons.push(button);
+		buttonsByID[id] = button;
+
+		// Keyboard shortcut!
+		(function(id){
+			subscribe("key/"+id,function(){
+				loopy.ink.reset(); // also CLEAR INK CANVAS
+				buttonsByID[id].callback();
+			});
+		})(id);
+
+	};
 
 	// Open templates
 	self.openTemplates = function(){
@@ -139,4 +199,11 @@ function ToolbarButton(toolbar, config){
 	};
 	self.dom.onclick = self.callback;
 
+}
+
+function TemplateGrid(toolbar){
+	// Localized "self" variable
+	var self = this;
+
+	self.dom = document.createElement("div");
 }
