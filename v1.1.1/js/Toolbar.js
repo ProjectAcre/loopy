@@ -12,8 +12,8 @@ function Toolbar(loopy){
 	var buttons = [];
 	var buttonsByID = {};
 	self.dom = document.getElementById("toolbar");
-	self.templatesBar = document.getElementById("templatesbar"); // What even is a "dom"?
-	self.dom.appendChild(self.templatesBar);
+	self.templatesBar = document.createElement("div"); // What even is a "dom"?
+	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
 	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
@@ -91,43 +91,25 @@ function Toolbar(loopy){
 		id: "template",
 		tooltip: "TE(M)PLATE",
 		callback: function() {
-			self.openTemplates();
+			self.toggleTemplateBar();
 		}
 	})
 	totalTemplates = 5; // Todo: not hard-coded?
 	for(let i = 0; i < totalTemplates; i++)
 	{
+		index = i+1; // If these templates correlate to number keys, better to start counting from 1.
+		id ="template" + index.toString()
 		self.addButton({
-			id: "template" + i.toString(),
-			tooltip: "TEMPLATE (" + (i+1) + ")",
+			id: id,
+			tooltip: "TEMPLATE (" + index + ")",
 			callback: function() {
-				console.log("I am template " + i);
+				self.setTool(id);
+				self.toggleTemplateBar(); // Close after clicking
 			}
 		},self.templatesBar)
 	}
-	console.log(self.dom);
-	console.log(self.templatesBar);
-	// Create template grid
-	/*
-	var totalTemplates = 9; // Todo: not hard-coded?
-	var grid = TemplateGrid(self);
-	console.log(grid);
-	// grid.buttons = [];
-	for(let i = 0; i < totalTemplates; i++)
-	{
-		// Individual Template button
-		id = "template" + i;
-		var button = new ToolbarButton(self,{
-			id: id,
-			icon: "css/icons/"+id+".png",
-			tooltip: "Template (" + i + ")",
-			callback: function(){console.log("Selected Template " + i);}
-		});
-		grid.dom.appendChild(button.dom);
-		// grid.buttons.push(button); // In case it needs tracking?
-	}
-	self.dom.appendChild(grid.dom);
-	*/
+	self.dom.appendChild(self.templatesBar);
+
 	self.addButton = function(options){
 
 		var id = options.id;
@@ -156,10 +138,17 @@ function Toolbar(loopy){
 	};
 
 	// Open templates
-	self.openTemplates = function(){
-		console.log("Here, we open up a 3x3 grid.");
-		// TODO: create 3x3 grid of buttons that are each their own template tool. 
-		// Double TODO: somehow link these to the existing templates
+	self.toggleTemplateBar = function(){
+		// If hidden, show
+		if(self.templatesBar.style.display == 'none')
+		{
+			self.templatesBar.style.display = 'block';
+		}
+		else // If showing, hide.
+		{
+			self.templatesBar.style.display = 'none';
+		}
+
 	};
 
 
