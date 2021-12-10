@@ -166,6 +166,49 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
+	graphCanvas = document.getElementById('graph_canvas');
+	dragElement(graphCanvas);
+	// Make it draggable?
+	// Credit: https://www.w3schools.com/howto/howto_js_draggable.asp
+	function dragElement(element){
+		
+		// Critical assignment
+		element.onmousedown = dragMouseDown;
+		console.log(element);
+
+		var newX = 0, newY = 0, startX = 0, startY = 0;
+		function dragMouseDown(e) {
+			console.log("Drag Event!");
+			e = e || window.event; // I'm scared
+			e.preventDefault(); // From code I copied
+			// Get initial mouse cursor
+			startX = e.ClientX;
+			startY = e.ClientY;
+			document.onmouseup = closeDragElement;
+			// Call a function whenever the cursor moves
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e = e || window.event;
+			e.preventDefault();
+
+			newX = startX - e.clientX;
+			newY = startY - e.clientY;
+			startX = e.clientX;
+			startY = e.clientY;
+
+			// Set the element's new position:
+			element.style.top = (element.offsetTop - newY) + "px";
+			element.style.left = (element.offsetLeft - newX) + "px";
+		}
+
+		function closeDragElement() {
+			// stop moving when mouse button is released:
+			document.onmouseup = null;
+			document.onmousemove = null;
+		}
+	}
 
 	// SHOULD WE DRAW?
 	var drawCountdownFull = 60; // two-second buffer!
