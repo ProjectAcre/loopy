@@ -33,8 +33,16 @@ function NodeGraph(model) {
                     min: 0,
                     max: 1
                 }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'right',
+                    align: 'start',
+                    maxWidth: 150,
+                }
             }
-        }
+        },
     });
 
     fps = 30; // The fps that, for some god-forsaken reason, was hard-coded into loopy.
@@ -99,4 +107,15 @@ function NodeGraph(model) {
             });
         }
     };
+
+    var _listenderVisibleToggle = subscribe("graph/toggleVisible", function(){
+        if(canvas.style.display == 'block')
+        {
+            canvas.style.display = 'none';
+        }
+        else if(canvas.style.display == 'none')
+        {
+            canvas.style.display = 'block';
+        }
+    });
 };

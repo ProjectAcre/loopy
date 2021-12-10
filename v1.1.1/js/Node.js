@@ -225,7 +225,7 @@ function Node(model, config){
 		
 		// Modify color if exploded
 		if(self.exploded) {
-			color = Node.explodedColor;
+			self.color = Node.explodedColor;
 		}
 
 		// Translate!
