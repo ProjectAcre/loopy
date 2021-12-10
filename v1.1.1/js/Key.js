@@ -17,8 +17,12 @@
 		69: "erase", // (E)rase
 		84: "label", // (T)ext
 		83: "save", // (S)ave
-		77: "templates", // te(M)plate
-
+		77: "templates", // te(M)pl111234ate
+		49: "template1", // template (1)
+		50: "template2", // template (2)
+		51: "template3", // template (3)
+		52: "template4", // template (4)
+		53: "template5", // template (5)
 	};
 
 	// Event Handling

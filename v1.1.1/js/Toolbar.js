@@ -98,14 +98,13 @@ function Toolbar(loopy){
 	totalTemplates = 5; // Todo: not hard-coded?
 	for(let i = 1; i <= totalTemplates; i++)
 	{
-		id ="template" + i.toString()
 		self.addButton({
-			id: id,
+			id: "template" + i.toString(),
 			tooltip: "TEMPLATE (" + i + ")",
 			callback: function() {
-				self.setTool(id);
+				self.setTool("template" + i.toString()); // Purposefully defying DRY principle, otherwise would always be template5.
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
-				console.log("Accessing template " + id);
+				console.log(self.currentTool); // Until we can actually get templates to do something, this shows it does something.
 			}
 		},self.templatesBar)
 	}
