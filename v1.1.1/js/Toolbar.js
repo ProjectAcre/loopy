@@ -14,6 +14,7 @@ function Toolbar(loopy){
 	self.dom = document.getElementById("toolbar");
 	self.templatesBar = document.createElement("div"); // What even is a "dom"?
 	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
+	self.templatesBar.style.float = 'right';
 	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
@@ -88,54 +89,27 @@ function Toolbar(loopy){
 		}
 	});
 	self.addButton({
-		id: "template",
+		id: "templates",
 		tooltip: "TE(M)PLATE",
 		callback: function() {
 			self.toggleTemplateBar();
 		}
 	})
 	totalTemplates = 5; // Todo: not hard-coded?
-	for(let i = 0; i < totalTemplates; i++)
+	for(let i = 1; i <= totalTemplates; i++)
 	{
-		index = i+1; // If these templates correlate to number keys, better to start counting from 1.
-		id ="template" + index.toString()
+		id ="template" + i.toString()
 		self.addButton({
 			id: id,
-			tooltip: "TEMPLATE (" + index + ")",
+			tooltip: "TEMPLATE (" + i + ")",
 			callback: function() {
 				self.setTool(id);
-				self.toggleTemplateBar(); // Close after clicking
+				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
+				console.log("Accessing template " + id);
 			}
 		},self.templatesBar)
 	}
 	self.dom.appendChild(self.templatesBar);
-
-	self.addButton = function(options){
-
-		var id = options.id;
-		var tooltip = options.tooltip;
-		var callback = options.callback;
-
-		// Add the button
-		var button = new ToolbarButton(self,{
-			id: id,
-			icon: "css/icons/"+id+".png",
-			tooltip: tooltip,
-			callback: callback
-		});
-		self.dom.appendChild(button.dom);
-		buttons.push(button);
-		buttonsByID[id] = button;
-
-		// Keyboard shortcut!
-		(function(id){
-			subscribe("key/"+id,function(){
-				loopy.ink.reset(); // also CLEAR INK CANVAS
-				buttonsByID[id].callback();
-			});
-		})(id);
-
-	};
 
 	// Open templates
 	self.toggleTemplateBar = function(){
