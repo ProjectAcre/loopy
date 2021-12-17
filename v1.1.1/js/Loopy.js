@@ -107,14 +107,17 @@ function Loopy(config){
 		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
 	}
 
+	self.moveControls = function(event){
+		
+	}
 	// Makes it possible to zoom with key presses
 	self.buttonZoom = function(event) {
 		keyPressed = event.key;
-		if(keyPressed == '-')
+		if(keyPressed == '-') // Zoom out
 		{
 			self.zoom({deltaY: 1});
 		}
-		else if(keyPressed == '=')
+		else if(keyPressed == '=') // Zoom in
 		{
 			self.zoom({deltaY: -1});
 		}
@@ -149,6 +152,14 @@ function Loopy(config){
 		self.offsetX += moveX * moveSpeed / self.offsetScale;
 
 	}
+	
+	// Reset Zoom
+	// Has a bit of delay, no idea why
+	subscribe("model/resetZoom",function(){
+		self.offsetScale = 1;
+		self.offsetX = 0;
+		self.offsetY = 0;
+	});
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
 	// (only Nodes need redrawing often. And only in PLAY mode.)
