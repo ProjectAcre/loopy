@@ -85,6 +85,7 @@ function Loopy(config){
 			self.model.update(); // modEl
 		}
 		window.addEventListener("wheel", self.zoom);
+		window.addEventListener("keydown", self.buttonZoom);
 		window.addEventListener("keydown", self.moveWindow);
 	};
 	setInterval(self.update, 1000/30); // 30 FPS, why not.
@@ -104,6 +105,19 @@ function Loopy(config){
 		self.offsetScale += speed;
 		// Clamp offsetScale to max and min scale
 		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+	}
+
+	// Makes it possible to zoom with key presses
+	self.buttonZoom = function(event) {
+		keyPressed = event.key;
+		if(keyPressed == '-')
+		{
+			self.zoom({deltaY: 1});
+		}
+		else if(keyPressed == '=')
+		{
+			self.zoom({deltaY: -1});
+		}
 	}
 
 	self.moveWindow = function(event){
