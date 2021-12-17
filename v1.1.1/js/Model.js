@@ -174,11 +174,9 @@ function Model(loopy){
 		
 		// Critical assignment
 		element.onmousedown = dragMouseDown;
-		console.log(element);
 
 		var newX = 0, newY = 0, startX = 0, startY = 0;
 		function dragMouseDown(e) {
-			console.log("Drag Event!");
 			e = e || window.event; // I'm scared
 			e.preventDefault(); // From code I copied
 			// Get initial mouse cursor
@@ -197,7 +195,6 @@ function Model(loopy){
 			newY = startY - e.clientY;
 			startX = e.clientX;
 			startY = e.clientY;
-
 			// Set the element's new position:
 			element.style.top = (element.offsetTop - newY) + "px";
 			element.style.left = (element.offsetLeft - newX) + "px";
@@ -207,6 +204,13 @@ function Model(loopy){
 			// stop moving when mouse button is released:
 			document.onmouseup = null;
 			document.onmousemove = null;
+
+			// Check it out of bounds
+			var paddingY = 150; // screw it, hard-coded estimate
+			var paddingX = 600;
+			element.style.top = Math.max(0, Math.min(window.innerHeight - paddingY, element.offsetTop)) + "px";
+			element.style.left = Math.max(0, Math.min(window.innerWidth - paddingX, element.offsetLeft)) + "px";
+
 		}
 	}
 
