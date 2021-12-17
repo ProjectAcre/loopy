@@ -318,4 +318,30 @@ function _shiftArray(array, shiftIndex){
 	return shifted;
 }
 
+// Credit to 1000i100 for figuring out the ink displacement problem I couldn't
+function offsetToRealOffset(scale,offsetX,offsetY) {
+	const canvasses = document.getElementById("canvasses");
+	const CW = canvasses.clientWidth - _PADDING - _PADDING;
+	const CH = canvasses.clientHeight - _PADDING_BOTTOM - _PADDING;
+	//const tx = offsetX*2*scale + canvasses.clientWidth*(1 - scale) - _PADDING*(2 + scale)
+	let translateX = offsetX*2;
+	let translateY = offsetY*2;
+	translateX -= CW+_PADDING;
+	translateY -= CH+_PADDING;
+	translateX = scale*translateX;
+	translateY = scale*translateY;
+	translateX += CW+_PADDING;
+	translateY += CH+_PADDING;
+	if(loopy.embedded){
+		translateX += _PADDING; // dunno why but this is needed
+		translateY += _PADDING; // dunno why but this is needed
+	}
+	return {scale,translateX,translateY};
+}
+function applyZoomTransform(ctx){
+	// Translate to center, (translate, scale, translate) to expand to size
+	const real = offsetToRealOffset(loopy.offsetScale,loopy.offsetX,loopy.offsetY);
+	//console.log(tx, ty);
+	ctx.setTransform(real.scale, 0, 0, real.scale, real.translateX, real.translateY);
 
+}

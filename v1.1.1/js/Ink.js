@@ -39,17 +39,19 @@ function Ink(loopy){
 		ctx.lineCap = "round";
 
 		// Draw line from last to current
+		applyZoomTransform(ctx);
 		ctx.beginPath();
 		ctx.moveTo(lastPoint[0]*2, lastPoint[1]*2);
 		ctx.lineTo(Mouse.x*2, Mouse.y*2);
 		ctx.stroke();
-
+		ctx.restore();
 		// Update last point
 		self.strokeData.push([Mouse.x,Mouse.y]);
 
 	};
 	self.reset = function(){
-		ctx.clearRect(0,0,canvas.width,canvas.height); // Clear canvas
+		// Clear canvas, no matter the size
+		ctx.clearRect(-1073741824,-1073741824,2147483647,2147483647);
 		self.strokeData = []; // Reset stroke data
 	};
 	subscribe("mousedown",function(){
