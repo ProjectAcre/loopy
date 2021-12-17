@@ -218,7 +218,7 @@ function Model(loopy){
 
 		// Translate
 		ctx.save();
-
+		applyZoomTransform(ctx); 
 		// Translate to center, (translate, scale, translate) to expand to size
 		var canvasses = document.getElementById("canvasses");
 		var CW = canvasses.clientWidth - _PADDING - _PADDING;
@@ -556,5 +556,4 @@ function Model(loopy){
 		}
 
 	};
-
 }
