@@ -31,7 +31,7 @@ function Loopy(config){
 	var minScale = 0.1;
 	var zoomSpeed = 0.1;
 	var moveSpeed = 10;
-	
+
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
 	
@@ -130,7 +130,7 @@ function Loopy(config){
 			moveX = -1;
 		}
 
-		self.offsetX += moveX * moveSpeed;
+		self.offsetX += moveX * moveSpeed / self.offsetScale;
 
 	}
 
