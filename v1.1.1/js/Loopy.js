@@ -27,7 +27,12 @@ function Loopy(config){
 	self.offsetX = 0;
 	self.offsetY = 0;
 	self.offsetScale = 1;
-
+	
+	var maxScale = 10;
+	var minScale = 0.1;
+	var zoomSpeed = 0.1;
+	var moveSpeed = 10;
+	
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
 	Mouse.init(document.getElementById("graph_div"));
@@ -79,6 +84,8 @@ function Loopy(config){
 		if(!self.modal.isShowing){ // modAl
 			self.model.update(); // modEl
 		}
+		window.addEventListener("wheel", self.zoom);
+		window.addEventListener("keydown", self.moveWindow);
 	};
 	setInterval(self.update, 1000/30); // 30 FPS, why not.
 
@@ -89,6 +96,45 @@ function Loopy(config){
 		}
 		requestAnimationFrame(self.draw);
 	};
+
+	// Zoom
+	self.zoom = function(event) {
+		// Get mouse scroll direction, inverse, multiply by zoom speed
+		speed = Math.sign(event.deltaY) * -zoomSpeed; 
+		self.offsetScale += speed;
+		// Clamp offsetScale to max and min scale
+		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+	}
+
+	self.moveWindow = function(event){
+		keyPressed = event.key;
+		moveX = 0;
+		moveY = 0;
+		// Vertical
+		if(keyPressed == 'w' || keyPressed == 'ArrowUp') // Up
+		{
+			moveY = 1;
+		}
+		else if(keyPressed == 's' || keyPressed == 'ArrowDown') // Down
+		{
+			moveY = -1;
+		}
+
+		self.offsetY += moveY * moveSpeed;
+
+		// Horizontal
+		if(keyPressed == 'a' || keyPressed == 'ArrowLeft') // Left
+		{
+			moveX = 1;
+		}
+		else if(keyPressed == 'd' || keyPressed == 'ArrowRight') // Right
+		{
+			moveX = -1;
+		}
+
+		self.offsetX += moveX * moveSpeed;
+
+	}
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
 	// (only Nodes need redrawing often. And only in PLAY mode.)
