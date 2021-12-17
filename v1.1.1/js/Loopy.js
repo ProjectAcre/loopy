@@ -154,7 +154,7 @@ function Loopy(config){
 	}
 	
 	// Reset Zoom
-	// Has a bit of delay, no idea why
+	// Sometimes has a bit of delay, no idea why
 	subscribe("model/resetZoom",function(){
 		self.offsetScale = 1;
 		self.offsetX = 0;
