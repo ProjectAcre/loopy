@@ -12,7 +12,11 @@ function Toolbar(loopy){
 	var buttons = [];
 	var buttonsByID = {};
 	self.dom = document.getElementById("toolbar");
-	self.addButton = function(options){
+	self.templatesBar = document.createElement("div"); // What even is a "dom"?
+	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
+	self.templatesBar.style.float = 'right';
+	self.templatesBar.clientHeight = 280;
+	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
 		var tooltip = options.tooltip;
@@ -25,7 +29,7 @@ function Toolbar(loopy){
 			tooltip: tooltip,
 			callback: callback
 		});
-		self.dom.appendChild(button.dom);
+		dom.appendChild(button.dom);
 		buttons.push(button);
 		buttonsByID[id] = button;
 
@@ -85,6 +89,42 @@ function Toolbar(loopy){
 			self.setTool("erase");
 		}
 	});
+	self.addButton({
+		id: "templates",
+		tooltip: "TE(M)PLATE",
+		callback: function() {
+			self.toggleTemplateBar();
+		}
+	})
+	totalTemplates = 5; // Todo: not hard-coded?
+	for(let i = 1; i <= totalTemplates; i++)
+	{
+		self.addButton({
+			id: "template" + i.toString(),
+			tooltip: "TEMPLATE (" + i + ")",
+			callback: function() {
+				self.setTool("template" + i.toString()); // Purposefully defying DRY principle, otherwise would always be template5.
+				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
+				console.log(self.currentTool); // Until we can actually get templates to do something, this shows it does something.
+			}
+		},self.templatesBar)
+	}
+	self.dom.appendChild(self.templatesBar);
+
+	// Open templates
+	self.toggleTemplateBar = function(){
+		// If hidden, show
+		if(self.templatesBar.style.display == 'none')
+		{
+			self.templatesBar.style.display = 'block';
+		}
+		else // If showing, hide.
+		{
+			self.templatesBar.style.display = 'none';
+		}
+
+	};
+
 
 	// Select button
 	buttonsByID.ink.callback();
@@ -122,4 +162,11 @@ function ToolbarButton(toolbar, config){
 	};
 	self.dom.onclick = self.callback;
 
+}
+
+function TemplateGrid(toolbar){
+	// Localized "self" variable
+	var self = this;
+
+	self.dom = document.createElement("div");
 }
