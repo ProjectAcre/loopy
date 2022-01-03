@@ -15,7 +15,7 @@ Template.NODE_TEMPLATE = {
 Template.LOOP_TEMPLATE = {
 	nodes: [{y: -80, init: 1, label: "Sink", hue: 4}, {y: 80, init: 1, label: "Source", hue: 5}],
 	edges: [{from: 2, to: 1, arc: 94, strength: -1}, {from: 1, to: 2, arc: 89, strength: 1}],
-	labels: [],
+	labels: [{y: -150, text: "Loop Nodes"}],
 }
 
 function Template(model, prototype) {
@@ -53,6 +53,7 @@ function Template(model, prototype) {
 	self.applyTemplate = function() {
 		// Apply all template components to graph from prototype
 
+		// Keep track of nodes generated in model
 		var generatedNodes = [];
 
 		// Nodes
@@ -80,8 +81,14 @@ function Template(model, prototype) {
 		}
 
 		// Labels
-		for (var i = 0; i < self.labels.length; i++) {
+		for (var i = 0; i < prototype.labels.length; i++) {
+			// Create copy of the object
+			var label = Object.assign({}, prototype.labels[i]);
 
+			// Offset based on selected position
+			label.x += Mouse.x;
+			label.y += Mouse.y;
+			self.model.addLabel(label);
 		}
 
 	};
