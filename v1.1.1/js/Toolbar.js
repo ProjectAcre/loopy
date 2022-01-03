@@ -15,6 +15,7 @@ function Toolbar(loopy){
 	self.templatesBar = document.createElement("div"); // What even is a "dom"?
 	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
 	self.templatesBar.style.float = 'right';
+	self.templatesBar.clientHeight = 280;
 	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
