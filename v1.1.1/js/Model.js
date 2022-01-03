@@ -18,8 +18,8 @@ function Model(loopy){
 	self.canvas = canvas;
 	self.context = ctx;
 
-
-
+	self.activeTemplate = null;
+    
 	///////////////////
 	// NODES //////////
 	///////////////////
@@ -157,6 +157,9 @@ function Model(loopy){
 		for(var i=0;i<self.edges.length;i++) self.edges[i].update(self.speed);
 		for(var i=0;i<self.nodes.length;i++) self.nodes[i].update(self.speed);
 
+        // Update template
+        if(self.activeTemplate) self.activeTemplate.update(self.speed);
+
 		// Dirty!
 		_canvasDirty = true;
 		
@@ -289,6 +292,9 @@ function Model(loopy){
 		for(var i=0;i<self.labels.length;i++) self.labels[i].draw(ctx);
 		for(var i=0;i<self.edges.length;i++) self.edges[i].draw(ctx);
 		for(var i=0;i<self.nodes.length;i++) self.nodes[i].draw(ctx);
+        
+        // Draw Template
+        if (self.activeTemplate) self.activeTemplate.draw(ctx);
 
 		// Restore
 		ctx.restore();
@@ -451,7 +457,18 @@ function Model(loopy){
 		}
 	};
 
+    ///////////////////
+	// TEMPLATES //////
+	///////////////////
+	self.setActiveTemplate = function(template) {
+        self.activeTemplate = template;
+	}
+   
+	self.stopTemplate = function() {
+		self.activeTemplate = null;
+	}
 
+    self.setActiveTemplate(new Template(self, Template.LOOP_TEMPLATE));
 
 	////////////////////
 	// HELPER METHODS //
