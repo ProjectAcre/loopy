@@ -18,7 +18,8 @@ canvas{
 	top: 10px;
 	left: 100px;
 	width: 400px;
-	height: 100px;
+	height: 350px;
+	resize: both;
 }
 
 #canvasses{
