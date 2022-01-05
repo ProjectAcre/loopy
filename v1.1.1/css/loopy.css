@@ -19,7 +19,6 @@ canvas{
 	left: 100px;
 	width: 400px;
 	height: 350px;
-	resize: both;
 }
 
 #canvasses{
