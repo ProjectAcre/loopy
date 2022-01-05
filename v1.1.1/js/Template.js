@@ -61,9 +61,9 @@ function Template(model, prototype) {
 	}
 
 	// Load template from prototype
-	for (var i = 0; i < prototype.nodes.length; i++) self.nodes.push(new Node(model, prototype.nodes[i]));
-	for (var i = 0; i < prototype.edges.length; i++) self.edges.push(new Edge(modelCopy, prototype.edges[i]));
-	for (var i = 0; i < prototype.labels.length; i++) self.labels.push(new Label(model, prototype.labels[i]));
+	for (var i = 0; i < prototype.nodes.length; i++) self.nodes.push(new Node(model, Object.assign({}, prototype.nodes[i])));
+	for (var i = 0; i < prototype.edges.length; i++) self.edges.push(new Edge(modelCopy, Object.assign({}, prototype.edges[i])));
+	for (var i = 0; i < prototype.labels.length; i++) self.labels.push(new Label(model, Object.assign({}, prototype.labels[i])));
 
 	// MOUSE.
 	var _listenerMouseUp = subscribe("mouseup", function() {
@@ -86,8 +86,8 @@ function Template(model, prototype) {
 			var node = Object.assign({}, prototype.nodes[i]);
 
 			// Offset based on selected position
-			node.x += Mouse.x;
-			node.y += Mouse.y;
+			node.x = Mouse.x + (node.x || 0);
+			node.y = Mouse.y + (node.y || 0);
 			generatedNodes.push(self.model.addNode(node));
 		}
 
@@ -110,8 +110,8 @@ function Template(model, prototype) {
 			var label = Object.assign({}, prototype.labels[i]);
 
 			// Offset based on selected position
-			label.x += Mouse.x;
-			label.y += Mouse.y;
+			label.x = Mouse.x + (label.x || 0);
+			label.y = Mouse.y + (label.y || 0);
 			self.model.addLabel(label);
 		}
 
