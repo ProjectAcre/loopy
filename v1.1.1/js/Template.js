@@ -42,15 +42,14 @@ function Template(model, prototype) {
 
 	// MOUSE.
 	var _listenerMouseUp = subscribe("mouseup", function() {
-		if (self.loopy.mode != Loopy.MODE_EDIT) return; // ONLY WHEN EDITING
+		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
+		if(self.loopy.tool!=Loopy.TOOL_TEMPLATE) return;
+
 		// Apply to actual model
 		self.applyTemplate();
-
-		// Destroy self
-		self.kill();
 	});
 
-	self.applyTemplate = function() {
+	self.applyTemplate = function() {	
 		// Apply all template components to graph from prototype
 
 		// Keep track of nodes generated in model
@@ -100,6 +99,9 @@ function Template(model, prototype) {
 	
 	// Update
 	self.update = function(speed) {
+		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
+		if(self.loopy.tool!=Loopy.TOOL_TEMPLATE) return;
+
 		// Update all edges then nodes
 		for (var i = 0; i < self.edges.length; i++) self.edges[i].update(speed);
 		for (var i = 0; i < self.nodes.length; i++) self.nodes[i].update(speed);
@@ -108,6 +110,9 @@ function Template(model, prototype) {
 	// Draw
 	var _circleRadius = 0;
 	self.draw = function(ctx) {
+		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
+		if(self.loopy.tool!=Loopy.TOOL_TEMPLATE) return;
+		
 		// Save context
 		ctx.save();
 

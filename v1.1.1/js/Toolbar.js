@@ -103,9 +103,9 @@ function Toolbar(loopy){
 			id: "template" + i.toString(),
 			tooltip: "TEMPLATE (" + i + ")",
 			callback: function() {
-				self.setTool("template" + i.toString()); // Purposefully defying DRY principle, otherwise would always be template5.
+				self.setTool("template"); // Sets to TOOL_TEMPLATE for all templates
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
-				console.log(self.currentTool); // Until we can actually get templates to do something, this shows it does something.
+				loopy.model.setActiveTemplate(new Template(loopy.model, Template.LOOP_TEMPLATE)); // Create the template tool instance and activate it
 			}
 		},self.templatesBar)
 	}

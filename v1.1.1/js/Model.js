@@ -461,14 +461,13 @@ function Model(loopy){
 	// TEMPLATES //////
 	///////////////////
 	self.setActiveTemplate = function(template) {
+		if(self.activeTemplate) self.activeTemplate.kill(); // Kill previous if it exists
         self.activeTemplate = template;
 	}
    
 	self.stopTemplate = function() {
 		self.activeTemplate = null;
 	}
-
-    self.setActiveTemplate(new Template(self, Template.LOOP_TEMPLATE));
 
 	////////////////////
 	// HELPER METHODS //
