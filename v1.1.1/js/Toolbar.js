@@ -96,8 +96,9 @@ function Toolbar(loopy){
 			self.toggleTemplateBar();
 		}
 	})
-	totalTemplates = 5; // Todo: not hard-coded?
-	for(let i = 1; i <= totalTemplates; i++)
+
+	// Iterate all templates
+	for(let i = 1; i <= Template.ALL_TEMPLATES.length; i++)
 	{
 		self.addButton({
 			id: "template" + i.toString(),
@@ -105,7 +106,7 @@ function Toolbar(loopy){
 			callback: function() {
 				self.setTool("template"); // Sets to TOOL_TEMPLATE for all templates
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
-				loopy.model.setActiveTemplate(new Template(loopy.model, Template.LOOP_TEMPLATE)); // Create the template tool instance and activate it
+				loopy.model.setActiveTemplate(new Template(loopy.model, Template.ALL_TEMPLATES[i - 1])); // Create the template tool instance and activate it
 			}
 		},self.templatesBar)
 	}

@@ -463,6 +463,8 @@ function Model(loopy){
 	self.setActiveTemplate = function(template) {
 		if(self.activeTemplate) self.activeTemplate.kill(); // Kill previous if it exists
         self.activeTemplate = template;
+		
+		drawCountdown=drawCountdownFull // Force redraw to render new template contents
 	}
    
 	self.stopTemplate = function() {

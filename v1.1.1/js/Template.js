@@ -18,6 +18,10 @@ Template.LOOP_TEMPLATE = {
 	labels: [{y: -150, text: "Loop Nodes"}],
 }
 
+// Create array of all templates. Need corresponding numbered images in css/icons for toolbar
+Template.ALL_TEMPLATES = [Template.NODE_TEMPLATE, Template.LOOP_TEMPLATE];
+
+
 function Template(model, prototype) {
 	var self = this;
 	self._CLASS_ = "Template";
