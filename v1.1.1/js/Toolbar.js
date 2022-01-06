@@ -100,13 +100,15 @@ function Toolbar(loopy){
 	// Iterate all templates
 	for(let i = 1; i <= Template.ALL_TEMPLATES.length; i++)
 	{
+		let associatedTemplate = Template.ALL_TEMPLATES[i - 1];
+		let templateTooltip = associatedTemplate.name + " (" + i + ")";
 		self.addButton({
 			id: "template" + i.toString(),
-			tooltip: "TEMPLATE (" + i + ")",
+			tooltip: templateTooltip,
 			callback: function() {
 				self.setTool("template"); // Sets to TOOL_TEMPLATE for all templates
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
-				loopy.model.setActiveTemplate(new Template(loopy.model, Template.ALL_TEMPLATES[i - 1])); // Create the template tool instance and activate it
+				loopy.model.setActiveTemplate(new Template(loopy.model, associatedTemplate.template)); // Create the template tool instance and activate it
 			}
 		},self.templatesBar)
 	}

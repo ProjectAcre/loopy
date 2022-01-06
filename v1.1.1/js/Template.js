@@ -5,41 +5,41 @@ TEMPLATE CODE
 **********************************/
 
 Template.POSTIVE_EDGE_TEMPLATE = {
-	nodes: [{x: -80, init: 1, label: "Source", hue: 4}, {x: 80, init: 1, label: "Sink", hue: 5}],
+	nodes: [{x: -80, init: 1, label: "something", hue: 4}, {x: 80, init: 1, label: "something else", hue: 5}],
 	edges: [{from: 1, to: 2, arc: 89, strength: 1}],
 	labels: [],
 }
 
 Template.OSCILLATING_LOOP_TEMPLATE = {
-	nodes: [{x: -80, init: 1, label: "Source", hue: 4}, {x: 80, init: 1, label: "Sink", hue: 5}],
+	nodes: [{x: -80, init: 1, label: "something", hue: 4}, {x: 80, init: 1, label: "something else", hue: 5}],
 	edges: [{from: 2, to: 1, arc: 94, strength: -1}, {from: 1, to: 2, arc: 89, strength: 1}],
 	labels: [],
 }
 
 Template.POSITIVE_FEEDBACK_TEMPLATE = {
-	nodes: [{x: -80, init: 1, label: "Source", hue: 4}, {x: 80, init: 1, label: "Sink", hue: 5}],
+	nodes: [{x: -80, init: 1, label: "something", hue: 4}, {x: 80, init: 1, label: "something else", hue: 5}],
 	edges: [{from: 2, to: 1, arc: 94, strength: 1}, {from: 1, to: 2, arc: 89, strength: 1}],
 	labels: [],
 }
 
 Template.START_TEMPLATE = {
-	nodes: [{y: -80, init: 1, label: "Start", hue: 4}, {y: 80, x: -120, init: 1, label: "Sink 1", hue: 5}, {y: 80, x: 120, init: 1, label: "Sink 2", hue: 5}],
+	nodes: [{y: -80, init: 1, label: "start", hue: 4}, {y: 80, x: -120, init: 1, label: "system 1", hue: 5}, {y: 80, x: 120, init: 1, label: "system 2", hue: 5}],
 	edges: [{from: 1, to: 2, arc: -1, strength: 1}, {from: 1, to: 3, arc: 1, strength: 1}],
 	labels: [{y: -150, text: "Click to start!"}],
 }
 
 Template.NEGATIVE_TEMPLATE = {
-	nodes: [{x: -80, init: 1, label: "Source", hue: 4}, {x: 80, init: 1, label: "Sink", hue: 5}],
+	nodes: [{x: -80, init: 1, label: "something", hue: 4}, {x: 80, init: 1, label: "something else", hue: 5}],
 	edges: [{from: 2, to: 1, arc: 94, strength: -1}, {from: 1, to: 2, arc: 89, strength: -1}],
 	labels: [],
 }
 
 // Create array of all templates. Need corresponding numbered images in css/icons for toolbar
-Template.ALL_TEMPLATES = [Template.POSTIVE_EDGE_TEMPLATE,
-						  Template.OSCILLATING_LOOP_TEMPLATE, 
-						  Template.POSITIVE_FEEDBACK_TEMPLATE, 
-						  Template.START_TEMPLATE, 
-						  Template.NEGATIVE_TEMPLATE,
+Template.ALL_TEMPLATES = [{name: "Resource Sink", template: Template.POSTIVE_EDGE_TEMPLATE},
+						  {name: "Repressilator", template: Template.OSCILLATING_LOOP_TEMPLATE}, 
+						  {name: "Positive Feedback Loop", template: Template.POSITIVE_FEEDBACK_TEMPLATE}, 
+						  {name: "Multi-System Initializer", template: Template.START_TEMPLATE}, 
+						  {name: "Balancing Feedback Loop", template: Template.NEGATIVE_TEMPLATE},
 						 ];
 
 
