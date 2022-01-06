@@ -95,8 +95,8 @@ function Toolbar(loopy){
 			self.toggleTemplateBar();
 		}
 	})
-	totalTemplates = 5; // Todo: not hard-coded?
-	for(let i = 1; i <= totalTemplates; i++)
+	self.totalTemplates = 5; // Todo: not hard-coded?
+	for(let i = 1; i <= self.totalTemplates; i++)
 	{
 		self.addButton({
 			id: "template" + i.toString(),
@@ -105,6 +105,7 @@ function Toolbar(loopy){
 				self.setTool("template" + i.toString()); // Purposefully defying DRY principle, otherwise would always be template5.
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
 				console.log(self.currentTool); // Until we can actually get templates to do something, this shows it does something.
+				document.getElementById("toolbar").style.height = ""; //Reduces bar to normal size
 			}
 		},self.templatesBar)
 	}
@@ -116,12 +117,14 @@ function Toolbar(loopy){
 		if(self.templatesBar.style.display == 'none')
 		{
 			self.templatesBar.style.display = 'block';
-			document.getElementById("toolbar").style.height = "700px" //also see if can be not hardcoded
+			document.getElementById("toolbar").style.height = String(parseInt(document.getElementById("toolbar").clientHeight) + self.totalTemplates * 70) + "px";  //70 is the height each button is given in . 350 is default height
+			console.log(document.getElementById("toolbar").style.height);
+			//document.getElementById("toolbar").style.height = "700px";
 		}
 		else // If showing, hide.
 		{
 			self.templatesBar.style.display = 'none';
-			document.getElementById("toolbar").style.height = "350px" //number from loopy.css
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 
 	};
