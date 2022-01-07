@@ -72,6 +72,12 @@ function Template(model, prototype) {
 
 		// Apply to actual model
 		self.applyTemplate();
+
+		// Remove self
+		self.kill();
+
+		// Switch to default tool
+		self.loopy.toolbar.selectDefault();
 	});
 
 	self.applyTemplate = function() {	

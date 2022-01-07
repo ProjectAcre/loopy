@@ -134,6 +134,10 @@ function Toolbar(loopy){
 
 	// Hide & Show
 
+	// Default tool
+	self.selectDefault = function() {
+		buttonsByID.ink.callback();
+	}
 }
 
 function ToolbarButton(toolbar, config){
