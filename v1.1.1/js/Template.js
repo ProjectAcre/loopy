@@ -73,11 +73,12 @@ function Template(model, prototype) {
 		// Apply to actual model
 		self.applyTemplate();
 
-		// Remove self
-		self.kill();
+		// Do cleanup
+		self.cleanupTool();
+	});
 
-		// Switch to default tool
-		self.loopy.toolbar.selectDefault();
+	var _listenerCancel = subscribe("key/cancel", function () {
+		self.cleanupTool();
 	});
 
 	self.applyTemplate = function() {	
@@ -122,6 +123,14 @@ function Template(model, prototype) {
 		}
 
 	};
+
+	self.cleanupTool = function() {
+		// Remove self
+		self.kill();
+
+		// Switch to default tool
+		self.loopy.toolbar.selectDefault();
+	}
 
 
 	//////////////////////////////////////
@@ -168,6 +177,7 @@ function Template(model, prototype) {
 
 		// Kill Listeners!
 		unsubscribe(_listenerMouseUp);
+		unsubscribe(_listenerCancel);
 
 		// Unregister from model
 		model.stopTemplate();
