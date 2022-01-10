@@ -105,6 +105,7 @@ function Loopy(config){
 		self.offsetScale += speed;
 		// Clamp offsetScale to max and min scale
 		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+		publish("mousemove"); // Force redraw
 	}
 
 	self.moveControls = function(event){
@@ -121,6 +122,7 @@ function Loopy(config){
 		{
 			self.zoom({deltaY: -1});
 		}
+		publish("mousemove"); // Force redraw
 	}
 
 	self.moveWindow = function(event){
@@ -150,7 +152,7 @@ function Loopy(config){
 		}
 
 		self.offsetX += moveX * moveSpeed / self.offsetScale;
-
+		publish("mousemove"); // Force redraw
 	}
 	
 	// Reset Zoom
@@ -159,6 +161,7 @@ function Loopy(config){
 		self.offsetScale = 1;
 		self.offsetX = 0;
 		self.offsetY = 0;
+		publish("mousemove"); // Force redraw
 	});
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
