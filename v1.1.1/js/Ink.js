@@ -51,7 +51,12 @@ function Ink(loopy){
 	};
 	self.reset = function(){
 		// Clear canvas, no matter the size
-		ctx.clearRect(-1073741824,-1073741824,2147483647,2147483647);
+		ctx.save();
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		ctx.restore();
+
 		self.strokeData = []; // Reset stroke data
 	};
 	subscribe("mousedown",function(){
