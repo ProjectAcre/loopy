@@ -44,7 +44,6 @@ function Ink(loopy){
 		ctx.moveTo(lastPoint[0]*2, lastPoint[1]*2);
 		ctx.lineTo(Mouse.x*2, Mouse.y*2);
 		ctx.stroke();
-		ctx.restore();
 		// Update last point
 		self.strokeData.push([Mouse.x,Mouse.y]);
 
