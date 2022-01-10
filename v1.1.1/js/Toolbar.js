@@ -13,8 +13,12 @@ function Toolbar(loopy){
 	var buttonsByID = {};
 	self.dom = document.getElementById("toolbar");
 	self.templatesBar = document.createElement("div"); // What even is a "dom"?
+	self.templatesBar.parentElement = self.dom;
 	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
-	self.templatesBar.style.float = 'right';
+	self.templatesBar.style.width = '350px';
+	self.templatesBar.style.height = "75px";
+	self.templatesBar.style.backgroundColor = "#ddd";
+
 	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
@@ -116,10 +120,8 @@ function Toolbar(loopy){
 		// If hidden, show
 		if(self.templatesBar.style.display == 'none')
 		{
-			self.templatesBar.style.display = 'block';
-			document.getElementById("toolbar").style.height = String(parseInt(document.getElementById("toolbar").clientHeight) + self.totalTemplates * 70) + "px";  //70 is the height each button is given in . 350 is default height
-			console.log(document.getElementById("toolbar").style.height);
-			//document.getElementById("toolbar").style.height = "700px";
+			self.templatesBar.style.display = 'flex';
+			document.getElementById("toolbar").style.height = String(parseInt(document.getElementById("toolbar").clientHeight) + 60) + "px";  //this extends the toolbar to be its regular height + the sub toolbar's height. Numbers chosen by sight, not math
 		}
 		else // If showing, hide.
 		{
