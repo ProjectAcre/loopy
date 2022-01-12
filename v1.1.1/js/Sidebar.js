@@ -15,6 +15,10 @@ function Sidebar(loopy){
 		self.currentPage.edit(object);
 	};
 
+	subscribe("graph/sidebar", function() {
+		self.showPage("Graph");
+	});
+
 	// Go back to main when the thing you're editing is killed
 	subscribe("kill",function(object){
 		if(self.currentPage.target==object){
@@ -152,6 +156,26 @@ function Sidebar(loopy){
 		self.addPage("Label", page);
 	})();
 
+	// Graph!
+	(function(){
+		var page = new SidebarPage();
+
+		backToTopButton(self, page);
+		page.addComponent(new ComponentHTML({
+			html: "<br><br>You can move the graph by simply clicking and dragging anywhere on it!<br><br>" + 
+			"To change whether the graph is displaying, click the \"Toggle graph visibility\" button in the top menu.",
+		}));
+		page.addComponent("time", new ComponentSlider({
+			bg: "initial",
+			label: "Time window length (seconds):",
+			options: [5, 10, 15, 20, 25, 30, 45],
+			oninput: function(value) {
+				publish("graph/timeChanged", [value]);
+			}
+		}));
+		self.addPage("Graph", page);
+	})();
+
 	// Edit
 	(function(){
 		var page = new SidebarPage();
@@ -167,7 +191,7 @@ function Sidebar(loopy){
 			"<hr/><br>"+
 
 			"<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
-			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
+			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle graph visibility</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
