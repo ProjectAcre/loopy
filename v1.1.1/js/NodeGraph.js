@@ -4,10 +4,13 @@ NODE GRAPHING!
 
 **********************************/
 
+NodeGraph.defaultTimeWindow = 15;  // Seconds
+
 function NodeGraph(model) {
     var self = this;
     self.loopy = model.loopy;
     self.model = model;
+    self.timeWindow = NodeGraph.defaultTimeWindow;
 
     var canvas = _createCanvas('NodeGraph', 400, 350, 'graph_canvas');
     const ctx = canvas.getContext('2d');
@@ -108,7 +111,7 @@ function NodeGraph(model) {
         }
     };
 
-    var _listenderVisibleToggle = subscribe("graph/toggleVisible", function(){
+    var _listenerVisibleToggle = subscribe("graph/toggleVisible", function(){
         if(canvas.style.display == 'block')
         {
             canvas.style.display = 'none';
