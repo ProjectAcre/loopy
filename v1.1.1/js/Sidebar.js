@@ -15,10 +15,6 @@ function Sidebar(loopy){
 		self.currentPage.edit(object);
 	};
 
-	subscribe("graph/sidebar", function() {
-		self.showPage("Graph");
-	});
-
 	// Go back to main when the thing you're editing is killed
 	subscribe("kill",function(object){
 		if(self.currentPage.target==object){
@@ -165,12 +161,12 @@ function Sidebar(loopy){
 			html: "<br><br>You can move the graph by simply clicking and dragging anywhere on it!<br><br>" + 
 			"To change whether the graph is displaying, click the \"Toggle graph visibility\" button in the top menu.",
 		}));
-		page.addComponent("time", new ComponentSlider({
+		page.addComponent("timeWindow", new ComponentSlider({
 			bg: "initial",
 			label: "Time window length (seconds):",
 			options: [5, 10, 15, 20, 25, 30, 45],
 			oninput: function(value) {
-				publish("graph/timeChanged", [value]);
+				NodeGraph.defaultTimeWindow = value;
 			}
 		}));
 		self.addPage("Graph", page);
