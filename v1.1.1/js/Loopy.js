@@ -84,9 +84,6 @@ function Loopy(config){
 		if(!self.modal.isShowing){ // modAl
 			self.model.update(); // modEl
 		}
-		window.addEventListener("wheel", self.zoom);
-		window.addEventListener("keydown", self.buttonZoom);
-		window.addEventListener("keydown", self.moveWindow);
 	};
 	setInterval(self.update, 1000/30); // 30 FPS, why not.
 
@@ -112,47 +109,33 @@ function Loopy(config){
 		
 	}
 	// Makes it possible to zoom with key presses
-	self.buttonZoom = function(event) {
-		keyPressed = event.key;
-		if(keyPressed == '-') // Zoom out
-		{
-			self.zoom({deltaY: 1});
-		}
-		else if(keyPressed == '=') // Zoom in
-		{
-			self.zoom({deltaY: -1});
-		}
+	subscribe("key/zoomin", function () {
+		self.zoom({deltaY: -1});
 		publish("mousemove"); // Force redraw
-	}
+	});
 
-	self.moveWindow = function(event){
-		keyPressed = event.key;
-		moveX = 0;
-		moveY = 0;
-		// Vertical
-		if(keyPressed == 'w' || keyPressed == 'ArrowUp') // Up
-		{
-			moveY = 1;
-		}
-		else if(keyPressed == 's' || keyPressed == 'ArrowDown') // Down
-		{
-			moveY = -1;
-		}
-
-		self.offsetY += moveY * moveSpeed;
-
-		// Horizontal
-		if(keyPressed == 'a' || keyPressed == 'ArrowLeft') // Left
-		{
-			moveX = 1;
-		}
-		else if(keyPressed == 'd' || keyPressed == 'ArrowRight') // Right
-		{
-			moveX = -1;
-		}
-
-		self.offsetX += moveX * moveSpeed / self.offsetScale;
+	subscribe("key/zoomout", function () {
+		self.zoom({deltaY: 1});
 		publish("mousemove"); // Force redraw
+	});
+
+
+	// Pan directions
+	let panHandlers = [{direction: "panleft", offset: [1, 0]},
+					   {direction: "panup", offset: [0, 1]},
+					   {direction: "panright", offset: [-1, 0]},
+					   {direction: "pandown", offset: [0, -1]}]; // Due to conflict withs ctrl+S we subscribe to "save" for down 
+	
+	for(let i = 0; i < panHandlers.length; i++) {
+		let panData = panHandlers[i];
+
+		let eventName = "key/" + panData.direction;
+
+		subscribe(eventName, function () {
+			self.offsetX += panData.offset[0] * moveSpeed / self.offsetScale;
+			self.offsetY += panData.offset[1] * moveSpeed;
+			publish("mousemove"); // Force redraw
+		});
 	}
 	
 	// Reset Zoom
@@ -163,6 +146,11 @@ function Loopy(config){
 		self.offsetY = 0;
 		publish("mousemove"); // Force redraw
 	});
+
+
+	// Register handlers
+	window.addEventListener("wheel", self.zoom);
+
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
 	// (only Nodes need redrawing often. And only in PLAY mode.)
