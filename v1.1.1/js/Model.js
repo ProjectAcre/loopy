@@ -174,7 +174,6 @@ function Model(loopy){
 		
 		// Critical assignment
 		element.onmousedown = dragMouseDown;
-		mouseMoved = false;
 
 		var newX = 0, newY = 0, startX = 0, startY = 0;
 		function dragMouseDown(e) {
@@ -183,7 +182,6 @@ function Model(loopy){
 			// Get initial mouse cursor
 			startX = e.ClientX;
 			startY = e.ClientY;
-			mouseMoved = false;
 			document.onmouseup = closeDragElement;
 			// Call a function whenever the cursor moves
 			document.onmousemove = elementDrag;
@@ -197,9 +195,6 @@ function Model(loopy){
 			newY = startY - e.clientY;
 			startX = e.clientX;
 			startY = e.clientY;
-			if(newX !== startX || newY !== startY) {
-				mouseMoved = true;
-			}
 			// Set the element's new position:
 			element.style.top = (element.offsetTop - newY) + "px";
 			element.style.left = (element.offsetLeft - newX) + "px";
@@ -215,12 +210,6 @@ function Model(loopy){
 			var paddingX = 600;
 			element.style.top = Math.max(0, Math.min(window.innerHeight - paddingY, element.offsetTop)) + "px";
 			element.style.left = Math.max(0, Math.min(window.innerWidth - paddingX, element.offsetLeft)) + "px";
-			
-			// Show graph sidebar upon releasing click
-			if(!mouseMoved) {
-				publish("graph/sidebar");
-			}
-			mouseMoved = false;
 		}
 	}
 
