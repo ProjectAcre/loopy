@@ -495,6 +495,13 @@ function Model(loopy){
 		return null;
 	};
 
+	self.getGraphByPoint = function(x,y) {
+		if(self.graph.isPointOnGraph(x, y)) {
+			return self.graph;
+		} 
+		return null;
+	}
+
 	// Click to edit!
 	subscribe("mouseclick",function(){
 
@@ -516,6 +523,11 @@ function Model(loopy){
 			return;
 		}
 
+		var clickedGraph = self.getGraphByPoint(Mouse.x, Mouse.y);
+		if(clickedGraph) {
+			loopy.sidebar.edit(clickedGraph);
+			return;
+		}
 		// Did you click on an edge label? If so, edit THAT edge.
 		var clickedEdge = self.getEdgeByPoint(Mouse.x, Mouse.y);
 		if(clickedEdge){
