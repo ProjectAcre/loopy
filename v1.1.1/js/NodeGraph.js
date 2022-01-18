@@ -126,6 +126,8 @@ function NodeGraph(model) {
         }
     });
 
+    // TODO: Seems like some auto-resizing stuff is happening somewhere, so graph always maintains its aspect ratio even though I'd rather it didn't necessarily.
+    // Look into this
     var _listenerResize = subscribe("graph/resize", function() {
         self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
     });
