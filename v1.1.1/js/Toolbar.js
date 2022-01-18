@@ -69,6 +69,8 @@ function Toolbar(loopy){
 		tooltip: "PE(N)CIL",
 		callback: function(){
 			self.setTool("ink");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -76,6 +78,8 @@ function Toolbar(loopy){
 		tooltip: "(T)EXT",
 		callback: function(){
 			self.setTool("label");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -83,6 +87,8 @@ function Toolbar(loopy){
 		tooltip: "MO(V)E",
 		callback: function(){
 			self.setTool("drag");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -90,6 +96,8 @@ function Toolbar(loopy){
 		tooltip: "(E)RASE",
 		callback: function(){
 			self.setTool("erase");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({

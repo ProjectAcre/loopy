@@ -36,10 +36,10 @@ Template.NEGATIVE_TEMPLATE = {
 
 // Create array of all templates. Need corresponding numbered images in css/icons for toolbar
 Template.ALL_TEMPLATES = [{name: "Resource Sink", template: Template.POSTIVE_EDGE_TEMPLATE},
-						  {name: "Repressilator", template: Template.OSCILLATING_LOOP_TEMPLATE}, 
+						  {name: "Balancing Feedback Loop", template: Template.OSCILLATING_LOOP_TEMPLATE}, 
 						  {name: "Positive Feedback Loop", template: Template.POSITIVE_FEEDBACK_TEMPLATE}, 
 						  {name: "Multi-System Initializer", template: Template.START_TEMPLATE}, 
-						  {name: "Balancing Feedback Loop", template: Template.NEGATIVE_TEMPLATE},
+						  {name: "Repressilator", template: Template.NEGATIVE_TEMPLATE},
 						 ];
 
 
