@@ -99,17 +99,19 @@ function Toolbar(loopy){
 			self.toggleTemplateBar();
 		}
 	})
-	self.totalTemplates = 5; // Todo: not hard-coded?
-	for(let i = 1; i <= self.totalTemplates; i++)
+	// Iterate all templates
+	for(let i = 1; i <= Template.ALL_TEMPLATES.length; i++)
 	{
+		let associatedTemplate = Template.ALL_TEMPLATES[i - 1];
+		let templateTooltip = associatedTemplate.name + " (" + i + ")";
 		self.addButton({
 			id: "template" + i.toString(),
-			tooltip: "TEMPLATE (" + i + ")",
+			tooltip: templateTooltip,
 			callback: function() {
-				self.setTool("template" + i.toString()); // Purposefully defying DRY principle, otherwise would always be template5.
+				self.setTool("template"); // Sets to TOOL_TEMPLATE for all templates
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
-				console.log(self.currentTool); // Until we can actually get templates to do something, this shows it does something.
 				document.getElementById("toolbar").style.height = ""; //Reduces bar to normal size
+				loopy.model.setActiveTemplate(new Template(loopy.model, associatedTemplate.template)); // Create the template tool instance and activate it
 			}
 		},self.templatesBar)
 	}
@@ -137,6 +139,10 @@ function Toolbar(loopy){
 
 	// Hide & Show
 
+	// Default tool
+	self.selectDefault = function() {
+		buttonsByID.ink.callback();
+	}
 }
 
 function ToolbarButton(toolbar, config){

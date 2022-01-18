@@ -47,9 +47,11 @@ function _createCanvas(id = '', width = 0, height = 0, parent = 'canvasses'){
 	canvasses.appendChild(canvas);
 
 	// subscribe to RESIZE
-	subscribe("resize",function(){
-		_onResize(width, height);
-	});
+	if(id !== "NodeGraph") {
+		subscribe("resize",function(){
+			_onResize(width, height);
+		});
+	}
 
 	// Gimme
 	return canvas;
