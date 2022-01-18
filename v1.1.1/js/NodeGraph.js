@@ -126,6 +126,10 @@ function NodeGraph(model) {
         }
     });
 
+    var _listenerResize = subscribe("graph/resize", function() {
+        self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
+    });
+
     self.isPointOnGraph = function(x, y) {
         return _isPointInBox(x, y, self.getBounds());
     }
