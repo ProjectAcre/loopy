@@ -27,8 +27,8 @@ function Ink(loopy){
 
 	// Drawing!
 	self.drawInk = function(){
-
-		if(!Mouse.pressed) return;
+		//Don't draw if the mouse isn't pressed or if the user is dragging over the graph
+		if(!Mouse.pressed || self.loopy.model.graph.isPointOnGraph(Mouse.x, Mouse.y)) return;
 
 		// Last point
 		var lastPoint = self.strokeData[self.strokeData.length-1];
@@ -57,7 +57,7 @@ function Ink(loopy){
 		// ONLY WHEN EDITING w INK
 		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
 		if(self.loopy.tool!=Loopy.TOOL_INK) return;
-
+		
 		// New stroke data
 		self.strokeData = [];
 		self.strokeData.push([Mouse.x,Mouse.y]);
