@@ -17,7 +17,7 @@ function NodeGraph(model) {
     self.graphH = NodeGraph.defaultHeight;
     self.graphW = NodeGraph.defaultWidth;
 
-    var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, 'graph_canvas');
+    var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, 'graph_div');
     const ctx = canvas.getContext('2d');
 
     // Get information from nodes

@@ -169,7 +169,7 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
-	graphCanvas = document.getElementById('graph_canvas');	// TODO: Change to NodeGraph instead of graph_canvas? Also rename graph_canvas to graph_div or graph_container or something??
+	graphCanvas = document.getElementById('graph_div');
 	dragElement(graphCanvas);
 	// Make it draggable?
 	// Credit: https://www.w3schools.com/howto/howto_js_draggable.asp

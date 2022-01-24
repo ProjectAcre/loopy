@@ -30,7 +30,7 @@ function Loopy(config){
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
-	Mouse.init(document.getElementById("graph_canvas")); // TODO: This makes the graph know when it's hovered, but also allows you to draw on the graph. What do?
+	Mouse.init(document.getElementById("graph_div"));
 
 	// Model
 	self.model = new Model(self);
