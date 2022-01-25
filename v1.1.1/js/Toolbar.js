@@ -13,9 +13,12 @@ function Toolbar(loopy){
 	var buttonsByID = {};
 	self.dom = document.getElementById("toolbar");
 	self.templatesBar = document.createElement("div"); // What even is a "dom"?
+	self.templatesBar.parentElement = self.dom;
 	self.templatesBar.style.display = 'none'; // Templates toolbar should not be visible by default
-	self.templatesBar.style.float = 'right';
-	self.templatesBar.clientHeight = 280;
+	self.templatesBar.style.width = '350px';
+	self.templatesBar.style.height = "75px";
+	self.templatesBar.style.backgroundColor = "#ddd";
+
 	self.addButton = function(options, dom = self.dom){
 
 		var id = options.id;
@@ -66,6 +69,8 @@ function Toolbar(loopy){
 		tooltip: "PE(N)CIL",
 		callback: function(){
 			self.setTool("ink");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -73,6 +78,8 @@ function Toolbar(loopy){
 		tooltip: "(T)EXT",
 		callback: function(){
 			self.setTool("label");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -80,6 +87,8 @@ function Toolbar(loopy){
 		tooltip: "MO(V)E",
 		callback: function(){
 			self.setTool("drag");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -87,6 +96,8 @@ function Toolbar(loopy){
 		tooltip: "(E)RASE",
 		callback: function(){
 			self.setTool("erase");
+			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 	});
 	self.addButton({
@@ -96,7 +107,6 @@ function Toolbar(loopy){
 			self.toggleTemplateBar();
 		}
 	})
-
 	// Iterate all templates
 	for(let i = 1; i <= Template.ALL_TEMPLATES.length; i++)
 	{
@@ -108,6 +118,7 @@ function Toolbar(loopy){
 			callback: function() {
 				self.setTool("template"); // Sets to TOOL_TEMPLATE for all templates
 				self.templatesBar.style.display = 'none'; // Close after clicking or accessing shortcut
+				document.getElementById("toolbar").style.height = ""; //Reduces bar to normal size
 				loopy.model.setActiveTemplate(new Template(loopy.model, associatedTemplate.template)); // Create the template tool instance and activate it
 			}
 		},self.templatesBar)
@@ -119,11 +130,13 @@ function Toolbar(loopy){
 		// If hidden, show
 		if(self.templatesBar.style.display == 'none')
 		{
-			self.templatesBar.style.display = 'block';
+			self.templatesBar.style.display = 'flex';
+			document.getElementById("toolbar").style.height = String(parseInt(document.getElementById("toolbar").clientHeight) + 60) + "px";  //this extends the toolbar to be its regular height + the sub toolbar's height. Numbers chosen by sight, not math
 		}
 		else // If showing, hide.
 		{
 			self.templatesBar.style.display = 'none';
+			document.getElementById("toolbar").style.height = ""; //returns to normal length
 		}
 
 	};
