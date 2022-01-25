@@ -114,7 +114,7 @@ div[big=yes] .play_button_label{
 #toolbar{
 	position: absolute;
 	left: 0px;
-	top: calc(33% - 177.5px); /* 33% - half of total toolbar height */
+	top: calc(33% - 180px); /* 33% - half of total toolbar height */
 
 	width:75px; height:350px;
 	padding: 5px;
