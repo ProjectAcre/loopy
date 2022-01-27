@@ -16,6 +16,7 @@ function NodeGraph(model) {
     self.timeWindow = NodeGraph.defaultTimeWindow;
     self.graphH = NodeGraph.defaultHeight;
     self.graphW = NodeGraph.defaultWidth;
+    self.isDragging = false;
 
     var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, 'graph_div');
     const ctx = canvas.getContext('2d');
@@ -131,8 +132,19 @@ function NodeGraph(model) {
         self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
     });
 
+    var _listenerMouseUp = subscribe("mouseup", function() {
+        self.isDragging = false;
+    });
+
     self.isPointOnGraph = function(x, y) {
         return _isPointInBox(x, y, self.getBounds());
+    }
+
+    self.isBeingDragged = function(x,y) {
+        if(Mouse.pressed  && self.isPointOnGraph(x,y)) {
+            self.isDragging = true;
+        }
+        return self.isDragging;
     }
 
     self.getBounds = function() {
