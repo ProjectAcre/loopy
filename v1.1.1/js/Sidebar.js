@@ -172,7 +172,7 @@ function Sidebar(loopy){
 		page.addComponent("graphH", new ComponentSlider({
 			bg: "initial",
 			label: "Vertical graph size",
-			options: [350, 525, 700],
+			options: [262, 350, 525, 700],
 			oninput: function(value) {
 				NodeGraph.defaultHeight = value;
 				publish("graph/resize");
@@ -181,7 +181,7 @@ function Sidebar(loopy){
 		page.addComponent("graphW", new ComponentSlider({
 			bg: "initial",
 			label: "Horizontal graph size",
-			options: [400, 600, 800],
+			options: [300, 400, 600, 800],
 			oninput: function(value) {
 				NodeGraph.defaultWidth = value;
 				publish("graph/resize");
