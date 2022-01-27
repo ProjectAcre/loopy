@@ -17,8 +17,10 @@ function NodeGraph(model) {
     self.graphH = NodeGraph.defaultHeight;
     self.graphW = NodeGraph.defaultWidth;
     self.isDragging = false;
+    self.isHidden = false;
+    self.parent = 'graph_div';
 
-    var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, 'graph_div');
+    var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, self.parent);
     const ctx = canvas.getContext('2d');
 
     // Get information from nodes
@@ -118,13 +120,20 @@ function NodeGraph(model) {
     };
 
     var _listenerVisibleToggle = subscribe("graph/toggleVisible", function(){
-        if(canvas.style.display == 'block')
+        var containingDiv = document.getElementById(self.parent);
+        if(!self.isHidden)
         {
-            canvas.style.display = 'none';
+            self.chart.resize(0,0);
+            containingDiv.style.width = 0;
+            containingDiv.style.height = 0;
+            self.isHidden = true;
         }
-        else if(canvas.style.display == 'none')
+        else
         {
-            canvas.style.display = 'block';
+            self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
+            containingDiv.style.width = 400;    // Hardcoded because I'm lazy
+            containingDiv.style.height = 350;
+            self.isHidden = false;
         }
     });
 
@@ -137,6 +146,9 @@ function NodeGraph(model) {
     });
 
     self.isPointOnGraph = function(x, y) {
+        if(self.isHidden) {
+            return false;
+        }
         return _isPointInBox(x, y, self.getBounds());
     }
 
