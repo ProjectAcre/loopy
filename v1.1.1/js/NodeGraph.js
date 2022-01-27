@@ -42,7 +42,17 @@ function NodeGraph(model) {
                 y: {
                     beginAtZero: true,
                     min: 0,
-                    max: 1
+                    max: 1,
+                    title: {
+                        display: true,
+                        text: 'Relative Value',
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time (seconds)',
+                    }
                 }
             },
             maintainAspectRatio: false,
