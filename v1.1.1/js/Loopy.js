@@ -119,6 +119,42 @@ function Loopy(config){
 		publish("mousemove"); // Force redraw
 	});
 
+	// Start position of mouse drag
+	self.mouseStart = {};
+	self.mouseStart.x = 0;
+	self.mouseStart.y = 0;
+
+	// Previous delta applied by mouse drag
+	self.mousePrev = {};
+	self.mousePrev.x = 0;
+	self.mousePrev.y = 0;
+
+
+	subscribe("rightmousedown", function () {
+		// Calculate mouse position ignoring offset
+		self.mouseStart.x = Mouse.x + self.offsetX;
+		self.mouseStart.y = Mouse.y + self.offsetY;
+		self.mousePrev.x = 0;
+		self.mousePrev.y = 0;
+	});
+
+	subscribe("mousemove", function () {
+		if(Mouse.pressedRight) {
+			// Calculate mouse distance from start
+			let dX = (Mouse.x + self.offsetX) - self.mouseStart.x;
+			let dY = (Mouse.y + self.offsetY) - self.mouseStart.y;
+
+			// Apply new delta and remove previous
+			self.offsetX += dX - self.mousePrev.x;
+			self.offsetY += dY - self.mousePrev.y;
+
+			// Save applied deltas
+			self.mousePrev.x = dX;
+			self.mousePrev.y = dY;
+		}
+	});
+
+
 
 	// Pan directions
 	let panHandlers = [{direction: "panleft", offset: [1, 0]},
