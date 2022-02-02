@@ -162,7 +162,7 @@ function Sidebar(loopy){
 			"To change whether the graph is displaying, click the \"Toggle graph visibility\" button in the top menu.",
 		}));
 		page.addComponent("timeWindow", new ComponentSlider({
-			bg: "initial",
+			bg: "graphTime",
 			label: "Time window length (seconds):",
 			options: [5, 10, 15, 20, 25, 30, 45],
 			oninput: function(value) {
@@ -170,7 +170,7 @@ function Sidebar(loopy){
 			}
 		}));
 		page.addComponent("graphH", new ComponentSlider({
-			bg: "initial",
+			bg: "graphSize",
 			label: "Vertical graph size",
 			options: [262, 350, 525, 700],
 			oninput: function(value) {
@@ -179,7 +179,7 @@ function Sidebar(loopy){
 			}
 		}));
 		page.addComponent("graphW", new ComponentSlider({
-			bg: "initial",
+			bg: "graphSize",
 			label: "Horizontal graph size",
 			options: [300, 400, 600, 800],
 			oninput: function(value) {
