@@ -187,6 +187,9 @@ function Sidebar(loopy){
 				publish("graph/resize");
 			}
 		}));
+		page.onedit = function() {
+			page.getComponent("timeWindow").setBGColor("#000000")
+		}
 		self.addPage("Graph", page);
 	})();
 
