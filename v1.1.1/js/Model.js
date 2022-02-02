@@ -169,7 +169,7 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
-	graphCanvas = document.getElementById('graph_canvas');
+	graphCanvas = document.getElementById('graph_div');
 	dragElement(graphCanvas);
 	// Make it draggable?
 	// Credit: https://www.w3schools.com/howto/howto_js_draggable.asp
@@ -213,7 +213,6 @@ function Model(loopy){
 			var paddingX = 600;
 			element.style.top = Math.max(0, Math.min(window.innerHeight - paddingY, element.offsetTop)) + "px";
 			element.style.left = Math.max(0, Math.min(window.innerWidth - paddingX, element.offsetLeft)) + "px";
-
 		}
 	}
 
@@ -504,6 +503,13 @@ function Model(loopy){
 		return null;
 	};
 
+	self.getGraphByPoint = function(x,y) {
+		if(self.graph.isPointOnGraph(x, y)) {
+			return self.graph;
+		} 
+		return null;
+	}
+
 	// Click to edit!
 	subscribe("mouseclick",function(){
 
@@ -525,6 +531,11 @@ function Model(loopy){
 			return;
 		}
 
+		var clickedGraph = self.getGraphByPoint(Mouse.x, Mouse.y);
+		if(clickedGraph) {
+			loopy.sidebar.edit(clickedGraph);
+			return;
+		}
 		// Did you click on an edge label? If so, edit THAT edge.
 		var clickedEdge = self.getEdgeByPoint(Mouse.x, Mouse.y);
 		if(clickedEdge){

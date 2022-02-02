@@ -13,7 +13,7 @@ canvas{
 	top:0; left:0;
 }
 
-#graph_canvas {
+#graph_div {
 	position:absolute;
 	top: 10px;
 	left: 100px;

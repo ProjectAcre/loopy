@@ -152,6 +152,47 @@ function Sidebar(loopy){
 		self.addPage("Label", page);
 	})();
 
+	// Graph!
+	(function(){
+		var page = new SidebarPage();
+
+		backToTopButton(self, page);
+		page.addComponent(new ComponentHTML({
+			html: "<br><br>You can move the graph by simply clicking and dragging anywhere on it!<br><br>" + 
+			"To change whether the graph is displaying, click the \"Toggle graph visibility\" button in the top menu.",
+		}));
+		page.addComponent("timeWindow", new ComponentSlider({
+			bg: "graphTime",
+			label: "Time window length (seconds):",
+			options: [5, 10, 15, 20, 25, 30, 45],
+			oninput: function(value) {
+				NodeGraph.defaultTimeWindow = value;
+			}
+		}));
+		page.addComponent("graphH", new ComponentSlider({
+			bg: "graphSize",
+			label: "Vertical graph size",
+			options: [262, 350, 525, 700],
+			oninput: function(value) {
+				NodeGraph.defaultHeight = value;
+				publish("graph/resize");
+			}
+		}));
+		page.addComponent("graphW", new ComponentSlider({
+			bg: "graphSize",
+			label: "Horizontal graph size",
+			options: [300, 400, 600, 800],
+			oninput: function(value) {
+				NodeGraph.defaultWidth = value;
+				publish("graph/resize");
+			}
+		}));
+		page.onedit = function() {
+			page.getComponent("timeWindow").setBGColor("#000000")
+		}
+		self.addPage("Graph", page);
+	})();
+
 	// Edit
 	(function(){
 		var page = new SidebarPage();
@@ -167,7 +208,7 @@ function Sidebar(loopy){
 			"<hr/><br>"+
 
 			"<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
-			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
+			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle graph visibility</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+

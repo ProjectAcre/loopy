@@ -30,7 +30,8 @@ function Loopy(config){
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
-	
+	Mouse.init(document.getElementById("graph_div"));
+
 	// Model
 	self.model = new Model(self);
 
