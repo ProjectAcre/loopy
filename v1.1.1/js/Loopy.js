@@ -27,6 +27,11 @@ function Loopy(config){
 	self.offsetX = 0;
 	self.offsetY = 0;
 	self.offsetScale = 1;
+	
+	var maxScale = 10;
+	var minScale = 0.1;
+	var zoomSpeed = 0.1;
+	var moveSpeed = 10;
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
@@ -79,6 +84,8 @@ function Loopy(config){
 		if(!self.modal.isShowing){ // modAl
 			self.model.update(); // modEl
 		}
+		window.addEventListener("wheel", self.zoom);
+		window.addEventListener("keydown", self.moveWindow);
 	};
 	setInterval(self.update, 1000/30); // 30 FPS, why not.
 
@@ -89,6 +96,99 @@ function Loopy(config){
 		}
 		requestAnimationFrame(self.draw);
 	};
+
+	// Zoom
+	self.zoom = function(event) {
+		// Get mouse scroll direction, inverse, multiply by zoom speed
+		speed = Math.sign(event.deltaY) * -zoomSpeed; 
+		self.offsetScale += speed;
+		// Clamp offsetScale to max and min scale
+		self.offsetScale = Math.max(Math.min(self.offsetScale, maxScale), minScale);
+		publish("mousemove"); // Force redraw
+	}
+
+	self.moveControls = function(event){
+		
+	}
+	// Makes it possible to zoom with key presses
+	subscribe("key/zoomin", function () {
+		self.zoom({deltaY: -1});
+		publish("mousemove"); // Force redraw
+	});
+
+	subscribe("key/zoomout", function () {
+		self.zoom({deltaY: 1});
+		publish("mousemove"); // Force redraw
+	});
+
+	// Start position of mouse drag
+	self.mouseStart = {};
+	self.mouseStart.x = 0;
+	self.mouseStart.y = 0;
+
+	// Previous delta applied by mouse drag
+	self.mousePrev = {};
+	self.mousePrev.x = 0;
+	self.mousePrev.y = 0;
+
+
+	subscribe("rightmousedown", function () {
+		// Calculate mouse position ignoring offset
+		self.mouseStart.x = Mouse.x + self.offsetX;
+		self.mouseStart.y = Mouse.y + self.offsetY;
+		self.mousePrev.x = 0;
+		self.mousePrev.y = 0;
+	});
+
+	subscribe("mousemove", function () {
+		if(Mouse.pressedRight) {
+			// Calculate mouse distance from start
+			let dX = (Mouse.x + self.offsetX) - self.mouseStart.x;
+			let dY = (Mouse.y + self.offsetY) - self.mouseStart.y;
+
+			// Apply new delta and remove previous
+			self.offsetX += dX - self.mousePrev.x;
+			self.offsetY += dY - self.mousePrev.y;
+
+			// Save applied deltas
+			self.mousePrev.x = dX;
+			self.mousePrev.y = dY;
+		}
+	});
+
+
+
+	// Pan directions
+	let panHandlers = [{direction: "panleft", offset: [1, 0]},
+					   {direction: "panup", offset: [0, 1]},
+					   {direction: "panright", offset: [-1, 0]},
+					   {direction: "pandown", offset: [0, -1]}]; // Due to conflict withs ctrl+S we subscribe to "save" for down 
+	
+	for(let i = 0; i < panHandlers.length; i++) {
+		let panData = panHandlers[i];
+
+		let eventName = "key/" + panData.direction;
+
+		subscribe(eventName, function () {
+			self.offsetX += panData.offset[0] * moveSpeed / self.offsetScale;
+			self.offsetY += panData.offset[1] * moveSpeed;
+			publish("mousemove"); // Force redraw
+		});
+	}
+	
+	// Reset Zoom
+	// Sometimes has a bit of delay, no idea why
+	subscribe("model/resetZoom",function(){
+		self.offsetScale = 1;
+		self.offsetX = 0;
+		self.offsetY = 0;
+		publish("mousemove"); // Force redraw
+	});
+
+
+	// Register handlers
+	window.addEventListener("wheel", self.zoom);
+
 
 	// TODO: Smarter drawing of Ink, Edges, and Nodes
 	// (only Nodes need redrawing often. And only in PLAY mode.)

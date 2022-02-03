@@ -1,12 +1,22 @@
 window.Mouse = {};
+
+Mouse.LEFT = 0;
+Mouse.RIGHT = 2;
 Mouse.init = function(target){
 
 	// Events!
 	var _onmousedown = function(event){
-		Mouse.moved = false;
-		Mouse.pressed = true;
-		Mouse.startedOnTarget = true;
-		publish("mousedown");
+		if(event.button == Mouse.LEFT) { 
+			Mouse.moved = false;
+			Mouse.pressed = true;
+			Mouse.startedOnTarget = true;
+			publish("mousedown");
+		} else if (event.button == Mouse.RIGHT) {
+			Mouse.movedRight = false;
+			Mouse.pressedRight = true;
+			Mouse.startedOnTargetRight = true;
+			publish("rightmousedown");
+		}
 	};
 	var _onmousemove = function(event){
 
@@ -44,17 +54,28 @@ Mouse.init = function(target){
 		Mouse.y = my;
 
 		Mouse.moved = true;
+		Mouse.movedRight = true;
 		publish("mousemove");
 
 	};
-	var _onmouseup = function(){
-		Mouse.pressed = false;
-		if(Mouse.startedOnTarget){
-			publish("mouseup");
-			if(!Mouse.moved) publish("mouseclick");
+	var _onmouseup = function(event){
+		if(event.button == Mouse.LEFT) { 
+			Mouse.pressed = false;
+			if(Mouse.startedOnTarget){
+				publish("mouseup");
+				if(!Mouse.moved) publish("mouseclick");
+			}
+			Mouse.moved = false;
+			Mouse.startedOnTarget = false;
+		} else if (event.button == Mouse.RIGHT) {
+			Mouse.pressedRight = false;
+			if(Mouse.startedOnTargetRight){
+				publish("rightmouseup");
+				if(!Mouse.movedRight) publish("rightmouseclick");
+			}
+			Mouse.movedRight = false;
+			Mouse.startedOnTargetRight = false;
 		}
-		Mouse.moved = false;
-		Mouse.startedOnTarget = false;
 	};
 
 	// Add mouse & touch events!
