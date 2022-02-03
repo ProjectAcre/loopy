@@ -46,6 +46,10 @@
 	// TODO: cursors stay when click button? orrrrr switch over to fake-cursor.
 	Key.onKeyDown = function(event){
 		if(window.loopy && loopy.modal && loopy.modal.isShowing) return;
+		let e = event || window.event;
+		if(e.keyCode == 83 || e.keyCode == 80) {	// Prevent default browser save or print
+			e.preventDefault();
+		}
 		let codes = KEY_CODES[event.keyCode];
 
 		for(let i = 0; i < codes.length; i++) {
