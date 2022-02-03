@@ -27,8 +27,8 @@ function Ink(loopy){
 
 	// Drawing!
 	self.drawInk = function(){
-
-		if(!Mouse.pressed) return;
+		//Don't draw if the mouse isn't pressed or if the user is dragging over the graph
+		if(!Mouse.pressed || self.loopy.model.graph.isBeingDragged(Mouse.x, Mouse.y)) return;
 
 		// Last point
 		var lastPoint = self.strokeData[self.strokeData.length-1];
@@ -44,14 +44,18 @@ function Ink(loopy){
 		ctx.moveTo(lastPoint[0]*2, lastPoint[1]*2);
 		ctx.lineTo(Mouse.x*2, Mouse.y*2);
 		ctx.stroke();
-		ctx.restore();
 		// Update last point
 		self.strokeData.push([Mouse.x,Mouse.y]);
 
 	};
 	self.reset = function(){
 		// Clear canvas, no matter the size
-		ctx.clearRect(-1073741824,-1073741824,2147483647,2147483647);
+		ctx.save();
+		ctx.setTransform(1, 0, 0, 1, 0, 0);
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+		ctx.restore();
+
 		self.strokeData = []; // Reset stroke data
 	};
 	subscribe("mousedown",function(){
@@ -59,7 +63,7 @@ function Ink(loopy){
 		// ONLY WHEN EDITING w INK
 		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
 		if(self.loopy.tool!=Loopy.TOOL_INK) return;
-
+		
 		// New stroke data
 		self.strokeData = [];
 		self.strokeData.push([Mouse.x,Mouse.y]);

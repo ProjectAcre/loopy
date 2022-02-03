@@ -18,8 +18,8 @@ function Model(loopy){
 	self.canvas = canvas;
 	self.context = ctx;
 
-
-
+	self.activeTemplate = null;
+    
 	///////////////////
 	// NODES //////////
 	///////////////////
@@ -157,6 +157,9 @@ function Model(loopy){
 		for(var i=0;i<self.edges.length;i++) self.edges[i].update(self.speed);
 		for(var i=0;i<self.nodes.length;i++) self.nodes[i].update(self.speed);
 
+        // Update template
+        if(self.activeTemplate) self.activeTemplate.update(self.speed);
+
 		// Dirty!
 		_canvasDirty = true;
 		
@@ -166,6 +169,52 @@ function Model(loopy){
 	// NODE GRAPH /////
 	///////////////////
 	self.graph = new NodeGraph(self);
+	graphCanvas = document.getElementById('graph_div');
+	dragElement(graphCanvas);
+	// Make it draggable?
+	// Credit: https://www.w3schools.com/howto/howto_js_draggable.asp
+	function dragElement(element){
+		
+		// Critical assignment
+		element.onmousedown = dragMouseDown;
+
+		var newX = 0, newY = 0, startX = 0, startY = 0;
+		function dragMouseDown(e) {
+			e = e || window.event; // I'm scared
+			e.preventDefault(); // From code I copied
+			// Get initial mouse cursor
+			startX = e.ClientX;
+			startY = e.ClientY;
+			document.onmouseup = closeDragElement;
+			// Call a function whenever the cursor moves
+			document.onmousemove = elementDrag;
+		}
+
+		function elementDrag(e) {
+			e = e || window.event;
+			e.preventDefault();
+
+			newX = startX - e.clientX;
+			newY = startY - e.clientY;
+			startX = e.clientX;
+			startY = e.clientY;
+			// Set the element's new position:
+			element.style.top = (element.offsetTop - newY) + "px";
+			element.style.left = (element.offsetLeft - newX) + "px";
+		}
+
+		function closeDragElement() {
+			// stop moving when mouse button is released:
+			document.onmouseup = null;
+			document.onmousemove = null;
+
+			// Check it out of bounds
+			var paddingY = 150; // screw it, hard-coded estimate
+			var paddingX = 600;
+			element.style.top = Math.max(0, Math.min(window.innerHeight - paddingY, element.offsetTop)) + "px";
+			element.style.left = Math.max(0, Math.min(window.innerWidth - paddingX, element.offsetLeft)) + "px";
+		}
+	}
 
 	// SHOULD WE DRAW?
 	var drawCountdownFull = 60; // two-second buffer!
@@ -242,6 +291,9 @@ function Model(loopy){
 		for(var i=0;i<self.labels.length;i++) self.labels[i].draw(ctx);
 		for(var i=0;i<self.edges.length;i++) self.edges[i].draw(ctx);
 		for(var i=0;i<self.nodes.length;i++) self.nodes[i].draw(ctx);
+        
+        // Draw Template
+        if (self.activeTemplate) self.activeTemplate.draw(ctx);
 
 		// Restore
 		ctx.restore();
@@ -404,7 +456,20 @@ function Model(loopy){
 		}
 	};
 
+    ///////////////////
+	// TEMPLATES //////
+	///////////////////
+	self.setActiveTemplate = function(template) {
+		if(self.activeTemplate) self.activeTemplate.kill(); // Kill previous if it exists
+        self.activeTemplate = template;
 
+		self.update(); // Force an update to process template before draw
+		drawCountdown=drawCountdownFull // Force redraw to render new template contents
+	}
+   
+	self.stopTemplate = function() {
+		self.activeTemplate = null;
+	}
 
 	////////////////////
 	// HELPER METHODS //
@@ -438,6 +503,13 @@ function Model(loopy){
 		return null;
 	};
 
+	self.getGraphByPoint = function(x,y) {
+		if(self.graph.isPointOnGraph(x, y)) {
+			return self.graph;
+		} 
+		return null;
+	}
+
 	// Click to edit!
 	subscribe("mouseclick",function(){
 
@@ -459,6 +531,11 @@ function Model(loopy){
 			return;
 		}
 
+		var clickedGraph = self.getGraphByPoint(Mouse.x, Mouse.y);
+		if(clickedGraph) {
+			loopy.sidebar.edit(clickedGraph);
+			return;
+		}
 		// Did you click on an edge label? If so, edit THAT edge.
 		var clickedEdge = self.getEdgeByPoint(Mouse.x, Mouse.y);
 		if(clickedEdge){

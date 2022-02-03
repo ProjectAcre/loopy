@@ -13,12 +13,12 @@ canvas{
 	top:0; left:0;
 }
 
-#graph_canvas {
+#graph_div {
 	position:absolute;
 	top: 10px;
 	left: 100px;
 	width: 400px;
-	height: 100px;
+	height: 350px;
 }
 
 #canvasses{
@@ -114,9 +114,9 @@ div[big=yes] .play_button_label{
 #toolbar{
 	position: absolute;
 	left: 0px;
-	top: calc(33% - 142.5px); /* 33% - half of toolbar height */
+	top: calc(33% - 180px); /* 33% - half of total toolbar height */
 
-	width:75px; height:280px;
+	width:75px; height:350px;
 	padding: 5px;
 	background-color: #ddd;
 

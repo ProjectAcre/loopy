@@ -47,9 +47,11 @@ function _createCanvas(id = '', width = 0, height = 0, parent = 'canvasses'){
 	canvasses.appendChild(canvas);
 
 	// subscribe to RESIZE
-	subscribe("resize",function(){
-		_onResize(width, height);
-	});
+	if(id !== "NodeGraph") {
+		subscribe("resize",function(){
+			_onResize(width, height);
+		});
+	}
 
 	// Gimme
 	return canvas;
@@ -140,7 +142,8 @@ function _addMouseEvents(target, onmousedown, onmousemove, onmouseup){
 		onmousedown(_fakeEvent);
 	};
 	var _onmousemove = function(event){
-		
+		event.preventDefault();
+
 		// Mouse position
 		var _fakeEvent = {};
 		if(event.changedTouches){
@@ -148,12 +151,13 @@ function _addMouseEvents(target, onmousedown, onmousemove, onmouseup){
 			var offset = _getTotalOffset(target);
 			_fakeEvent.x = event.changedTouches[0].clientX - offset.left;
 			_fakeEvent.y = event.changedTouches[0].clientY - offset.top;
-			event.preventDefault();
+			_fakeEvent.button = 0; // Simulate left click always
 		}else{
 			// Not Touch
 			_fakeEvent.x = event.offsetX;
 			_fakeEvent.y = event.offsetY;
-		}
+			_fakeEvent.button = event.button;
+		}	
 
 		// Mousemove callback
 		onmousemove(_fakeEvent);
@@ -161,7 +165,14 @@ function _addMouseEvents(target, onmousedown, onmousemove, onmouseup){
 
 	};
 	var _onmouseup = function(event){
+		event.preventDefault();
+
 		var _fakeEvent = {};
+		if(event.changedTouches) {
+			_fakeEvent.button = 0; // Always right click for touch
+		} else {
+			_fakeEvent.button = event.button;
+		}
 		onmouseup(_fakeEvent);
 	};
 
@@ -174,6 +185,9 @@ function _addMouseEvents(target, onmousedown, onmousemove, onmouseup){
 	target.addEventListener("touchstart",_onmousedown,false);
 	target.addEventListener("touchmove",_onmousemove,false);
 	document.body.addEventListener("touchend",_onmouseup,false);
+
+	// DISABLE CONTEXTMENU!
+	target.addEventListener("contextmenu", (event) => event.preventDefault());
 
 }
 
