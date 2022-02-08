@@ -184,5 +184,8 @@ function Template(model, prototype) {
 
 		// Killed!
 		publish("kill", [self]);
+		
+		// Force redraw
+		publish("mousemove");
 	};
 }
