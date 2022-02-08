@@ -57,6 +57,8 @@ function Toolbar(loopy){
 	// Set Tool
 	self.currentTool = "ink";
 	self.setTool = function(tool){
+		// Remove previous template tool if assigned
+		if(loopy.model.activeTemplate) loopy.model.activeTemplate.kill();
 		self.currentTool = tool;
 		var name = "TOOL_"+tool.toUpperCase();
 		loopy.tool = Loopy[name];
