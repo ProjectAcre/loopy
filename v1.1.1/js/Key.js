@@ -34,7 +34,7 @@
 		69: ["erase"], // (E)rase
 		84: ["label"], // (T)ext
 		83: ["save", "pandown"], // (S)ave
-		77: ["templates"], // te(M)plate
+		77: ["template"], // te(M)plate
 		49: ["template1"], // template: 1to1pos, one node pointing positively to a second
 		50: ["template2"], // template: feedbackOscillator, one node pointing positively to a second, while the second points negatively to the first
 		51: ["template3"], // template: feedbackPositive, two nodes pointing positvely to each other
