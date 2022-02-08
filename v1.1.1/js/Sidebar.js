@@ -207,7 +207,7 @@ function Sidebar(loopy){
 
 			"<hr/><br>"+
 
-			"<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
+			// "<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"model/resetZoom\")'>reset zoom</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
