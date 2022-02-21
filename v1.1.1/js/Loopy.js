@@ -35,7 +35,7 @@ function Loopy(config){
 
 	// Mouse
 	Mouse.init(document.getElementById("canvasses")); // TODO: ugly fix, ew
-	Mouse.init(document.getElementById("graph_div"));
+	Mouse.init(document.getElementById("graph_div")); // TODO: fix the fact that apparently this has to stay to subscribe to the mouseclick events responsible for displaying the graph sidebar?
 
 	// Model
 	self.model = new Model(self);
