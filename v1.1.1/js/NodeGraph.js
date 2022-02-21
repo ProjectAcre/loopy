@@ -141,8 +141,8 @@ function NodeGraph(model) {
         else
         {
             self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
-            containingDiv.style.width = 400;    // Hardcoded because I'm lazy
-            containingDiv.style.height = 350;
+            containingDiv.style.width = NodeGraph.defaultWidth;
+            containingDiv.style.height = NodeGraph.defaultHeight;
             self.isHidden = false;
         }
     });
@@ -154,6 +154,10 @@ function NodeGraph(model) {
     var _listenerMouseUp = subscribe("mouseup", function() {
         self.isDragging = false;
     });
+    
+    var _listenerRightMouseUp = subscribe("rightmouseup", function() {
+        self.isDragging = false;
+    });
 
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {
@@ -163,16 +167,17 @@ function NodeGraph(model) {
     }
 
     self.isBeingDragged = function(x,y) {
-        if(Mouse.pressed  && self.isPointOnGraph(x,y)) {
+        if((Mouse.pressed || Mouse.pressedRight)  && self.isPointOnGraph(x,y)) {
             self.isDragging = true;
         }
         return self.isDragging;
     }
 
     self.getBounds = function() {
+        var containingDiv = document.getElementById(self.parent);
         return {
-            x: canvas.style.left,
-            y: canvas.style.top,
+            x: parseInt(containingDiv.style.left, 10),
+            y: parseInt(containingDiv.style.top, 10),
             width: self.graphW,
             height: self.graphH
         };

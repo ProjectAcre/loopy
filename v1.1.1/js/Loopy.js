@@ -140,8 +140,12 @@ function Loopy(config){
 		self.mousePrev.y = 0;
 	});
 
-	subscribe("mousemove", function () {
+	subscribe("mousemove", function (e) {
 		if(Mouse.pressedRight) {
+			e = e || window.event;
+			if(self.model.graph.isBeingDragged(e.clientX, e.clientY)) {	// Don't drag anything if right click started on the graph, it leads to weird stuff
+				return;
+			}
 			// Calculate mouse distance from start
 			let dX = (Mouse.x + self.offsetX) - self.mouseStart.x;
 			let dY = (Mouse.y + self.offsetY) - self.mouseStart.y;
