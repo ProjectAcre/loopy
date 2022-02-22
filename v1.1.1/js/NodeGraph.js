@@ -37,15 +37,18 @@ function NodeGraph(model) {
         let moved = false;
 
         let mousedownhandler = function(e) {
+            if(e.button == Mouse.RIGHT) return;
             startedOnTarget = true;
             moved = false;
         }
 
-        let mousemovehandler = function() {
+        let mousemovehandler = function(e) {
+            if(e.button == Mouse.RIGHT) return;
             moved = true;
         }
 
         let mouseuphandler = function(e) {
+            if(e.button == Mouse.RIGHT) return;
             if(startedOnTarget && !moved) {
                 self.loopy.sidebar.edit(self);
             }
@@ -169,8 +172,8 @@ function NodeGraph(model) {
         else
         {
             self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
-            containingDiv.style.width = 400;    // Hardcoded because I'm lazy
-            containingDiv.style.height = 350;
+            containingDiv.style.width = NodeGraph.defaultWidth;
+            containingDiv.style.height = NodeGraph.defaultHeight;
             self.isHidden = false;
         }
     });
@@ -188,8 +191,8 @@ function NodeGraph(model) {
 
     self.getBounds = function() {
         return {
-            x: canvas.style.left,
-            y: canvas.style.top,
+            x: parseInt(containingDiv.style.left, 10),
+            y: parseInt(containingDiv.style.top, 10),
             width: self.graphW,
             height: self.graphH
         };
