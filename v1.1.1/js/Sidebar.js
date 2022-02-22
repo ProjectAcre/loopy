@@ -104,7 +104,7 @@ function Sidebar(loopy){
 			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
 			page.getComponent("explodeLowerThreshold").setBGColor(color);
-			page.getComponent("hue").ComponentSlider.slider.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
+			//page.getComponent("hue").ComponentSlider.slider.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
 
 			// Focus on the name field IF IT'S "" or "?"
 			var name = node.label;

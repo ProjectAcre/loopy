@@ -9,13 +9,13 @@ NodeGraph.defaultWidth = 400;   //px
 NodeGraph.defaultHeight = 350;  //px
 
 NodeGraph.shapes = {
-    "circle" : " ●",
-    "triangle" : " ▲",
-    "rect" : " ■",
-    "rectRot" : " ◆",
-    "star" : " *",
-    "cross" : " +",
-    "crossRot" : " x"
+    "circle" : "●",
+    "triangle" : "▲",
+    "rect" : "■",
+    "rectRot" : "◆",
+    "star" : "*",
+    "cross" : "+",
+    "crossRot" : "x"
 }
 
 function NodeGraph(model) {
@@ -188,7 +188,7 @@ function NodeGraph(model) {
             nodes[i].palette = n;
             nodes[i].color = Node.COLORSETS[nodes[i].palette][nodes[i].hue];
         }
-
+		publish("mousemove");
     }
 
     self.isPointOnGraph = function(x, y) {
