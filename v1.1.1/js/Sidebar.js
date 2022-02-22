@@ -104,7 +104,7 @@ function Sidebar(loopy){
 			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
 			page.getComponent("explodeLowerThreshold").setBGColor(color);
-			///////////////////////page.getComponent("hue").ComponentSlider.sliderDOM.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
+			page.getComponent("hue").ComponentSlider.slider.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
 
 			// Focus on the name field IF IT'S "" or "?"
 			var name = node.label;
@@ -228,10 +228,11 @@ function Sidebar(loopy){
 			"<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"model/resetZoom\")'>reset zoom</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
-			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>use rainbow colors</span><br>"+
-			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>use Tol colors</span><br>"+
-			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>use Wong colors</span><br>"+
-			"<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>use monochrome colors</span><br><br>"+
+			"Color Palette: <br>" +
+			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>Rainbow</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>Tol</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>Wong</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>Monochrome</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+

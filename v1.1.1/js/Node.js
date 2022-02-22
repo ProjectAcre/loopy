@@ -15,7 +15,7 @@ Node.COLORS = {
 Node.COLORSTOL = {
 	0: "#332288", // navy
 	1: "#117733", // green
-	2: "#117733", // teal
+	2: "#44AA99", // teal
 	3: "#88CCEE", // light blue
 	4: "#DDCC77", // yellow
 	5: "#CC6677" // red
