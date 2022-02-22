@@ -20,6 +20,7 @@ function NodeGraph(model) {
     self.isHidden = false;
     self.parent = 'graph_div';
 
+    var parentEle = document.getElementById(self.parent);
     var canvas = _createCanvas('NodeGraph', self.graphW, self.graphH, self.parent);
     const ctx = canvas.getContext('2d');
 
@@ -29,7 +30,34 @@ function NodeGraph(model) {
     backgroundColors = []
     labels = []
     nodeData = []
-    
+
+    registerGraphClicks(document.getElementById(self.parent));
+    function registerGraphClicks(parentElement) {
+        let startedOnTarget = false;
+        let moved = false;
+
+        let mousedownhandler = function(e) {
+            startedOnTarget = true;
+            moved = false;
+        }
+
+        let mousemovehandler = function() {
+            moved = true;
+        }
+
+        let mouseuphandler = function(e) {
+            if(startedOnTarget && !moved) {
+                self.loopy.sidebar.edit(self);
+            }
+
+            startedOnTarget = false;
+            moved = false;
+        };
+
+        parentElement.addEventListener("mousedown", mousedownhandler);
+        parentElement.addEventListener("mousemove", mousemovehandler);
+        parentElement.addEventListener("mouseup", mouseuphandler);
+    }
    
     self.chart = new Chart(ctx, {
         type: 'line',
@@ -151,22 +179,11 @@ function NodeGraph(model) {
         self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
     });
 
-    var _listenerMouseUp = subscribe("mouseup", function() {
-        self.isDragging = false;
-    });
-
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {
             return false;
         }
         return _isPointInBox(x, y, self.getBounds());
-    }
-
-    self.isBeingDragged = function(x,y) {
-        if(Mouse.pressed  && self.isPointOnGraph(x,y)) {
-            self.isDragging = true;
-        }
-        return self.isDragging;
     }
 
     self.getBounds = function() {
