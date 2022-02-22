@@ -379,6 +379,9 @@ function Node(model, config){
 			ctx.font = "normal "+fontsize+"px sans-serif";
 			textWidth = ctx.measureText(text).width;
 		}
+		if (self.palette == 3){
+			ctx.strokeStyle = "#ffffff";
+		}
 		ctx.fillText(text, 0, y_displacement);
 	};
 

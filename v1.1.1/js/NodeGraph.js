@@ -9,13 +9,13 @@ NodeGraph.defaultWidth = 400;   //px
 NodeGraph.defaultHeight = 350;  //px
 
 NodeGraph.shapes = {
-    "circle" : "●",
-    "triangle" : "▲",
-    "rect" : "■",
-    "rectRot" : "◆",
-    "star" : "*",
-    "cross" : "+",
-    "crossRot" : "x"
+    "circle" : "● ",
+    "triangle" : "▲ ",
+    "rect" : "■ ",
+    "rectRot" : "◆ ",
+    "star" : "* ",
+    "cross" : "+ ",
+    "crossRot" : "x "
 }
 
 function NodeGraph(model) {
@@ -114,7 +114,7 @@ function NodeGraph(model) {
                     self.chart.data.datasets[i].data.shift();
                 }
                 
-                self.chart.data.datasets[i].label = nodes[i].label + NodeGraph.shapes[nodes[i].shape]; // Continually update label for renaming
+                self.chart.data.datasets[i].label = NodeGraph.shapes[nodes[i].shape] + nodes[i].label; // Continually update label for renaming
                 self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
                 self.chart.data.datasets[i].borderColor = nodes[i].color;
                 self.chart.data.datasets[i].pointStyle = nodes[i].shape;

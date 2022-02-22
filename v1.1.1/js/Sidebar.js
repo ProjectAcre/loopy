@@ -104,7 +104,6 @@ function Sidebar(loopy){
 			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
 			page.getComponent("explodeLowerThreshold").setBGColor(color);
-			//page.getComponent("hue").ComponentSlider.slider.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
 
 			// Focus on the name field IF IT'S "" or "?"
 			var name = node.label;
@@ -231,8 +230,8 @@ function Sidebar(loopy){
 			"Color Palette: <br>" +
 			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>Rainbow</span> "+
 			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>Tol</span> "+
-			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>Wong</span> "+
-			"<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>Monochrome</span><br><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>Wong</span><br><br>"+
+			// "<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>Monochrome</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
@@ -256,6 +255,28 @@ function Sidebar(loopy){
 			publish("modal",["save_link"]);
 		}
 	});
+
+    subscribe("node/changeColorRainbow", function() {
+        self.changePalette(0);
+    });
+
+    subscribe("node/changeColorTol", function() {
+        self.changePalette(1);
+    });
+	
+    subscribe("node/changeColorWong", function() {
+        self.changePalette(2);
+    });
+
+	subscribe("node/changeColorBW", function() {
+        self.changePalette(3);
+    });
+
+	self.changePalette = function(n){
+        Node.defaultPalette = n;
+        this.pages[0].components[2].dom.innerHTML = "<div class=\"component_label\">Color:</div><div class=\"component_slider\"><img draggable=\"false\" src=\"css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png\" class=\"component_slider_graphic\"><img draggable=\"false\" src=\"css/sliders/slider_pointer.png\" class=\"component_slider_pointer\"></div>"
+		// the line above SUCKS, but it changes the slider image which is what we need
+	}
 
 }
 
