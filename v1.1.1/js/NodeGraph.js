@@ -27,6 +27,7 @@ function NodeGraph(model) {
     var nodes = model.nodes;
     var n = 0; // number of nodes
     backgroundColors = []
+    backgroundShapes = []
     labels = []
     nodeData = []
     
@@ -106,6 +107,7 @@ function NodeGraph(model) {
                 self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
                 self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
                 self.chart.data.datasets[i].borderColor = nodes[i].color;
+                self.chart.data.datasets[i].pointStyle = nodes[i].shape;
             }
          }
 
@@ -124,6 +126,7 @@ function NodeGraph(model) {
                 data: [],
                 borderColor: nodes[i].color,
                 backgroundColor: nodes[i].color,
+                backgroundShape: nodes[i].shape,
                 borderWidth: 1
             });
         }
@@ -154,6 +157,29 @@ function NodeGraph(model) {
     var _listenerMouseUp = subscribe("mouseup", function() {
         self.isDragging = false;
     });
+
+    var _listenerResize = subscribe("node/changeColorRainbow", function() {
+        self.changePalette(0);
+    });
+
+    var _listenerResize = subscribe("node/changeColorTol", function() {
+        self.changePalette(1);
+    });
+    var _listenerResize = subscribe("node/changeColorWong", function() {
+        self.changePalette(2);
+    });
+    var _listenerResize = subscribe("node/changeColorBW", function() {
+        self.changePalette(3);
+    });
+
+    self.changePalette = function(n){
+        Node.defaultPalette = n;
+        for (let i = 0; i < nodes.length; i++){
+            nodes[i].palette = n;
+            nodes[i].color = Node.COLORSETS[nodes[i].palette][nodes[i].hue];
+        }
+
+    }
 
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {

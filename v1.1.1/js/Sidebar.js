@@ -7,6 +7,13 @@ SIDEBAR CODE
 function Sidebar(loopy){
 
 	var self = this;
+	
+	Sidebar.COLORSLIDEROPTIONS = {
+		0 : "colorRainbow",
+		1 : "colorTol",
+		2 : "colorWong",
+		3 : "colorBW"}
+
 	PageUI.call(self, document.getElementById("sidebar"));
 
 	// Edit
@@ -37,12 +44,21 @@ function Sidebar(loopy){
 			//label: "Name:"
 		}));
 		page.addComponent("hue", new ComponentSlider({
-			bg: "color",
+			bg: "colorRainbow",
 			label: "Color:",
 			options: [0,1,2,3,4,5],
 			oninput: function(value){
 				Node.defaultHue = value;
 			}
+		}));
+		page.addComponent("shape", new ComponentSlider({
+			bg: "shape",
+			label: "Shape of point on graph",
+			options: ["circle","triangle","rect","rectRot","star","cross","crossRot"],
+			oninput: function(value){
+				Node.defaultShape = value;
+			}
+
 		}));
 		page.addComponent("init", new ComponentSlider({
 			bg: "initial",
@@ -83,10 +99,12 @@ function Sidebar(loopy){
 
 			// Set color of Slider
 			var node = page.target;
-			var color = Node.COLORS[node.hue];
+			var color = Node.COLORSETS[node.palette][node.hue];
 			page.getComponent("init").setBGColor(color);
+			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
 			page.getComponent("explodeLowerThreshold").setBGColor(color);
+			///////////////////////page.getComponent("hue").ComponentSlider.sliderDOM.src = "css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png";
 
 			// Focus on the name field IF IT'S "" or "?"
 			var name = node.label;
@@ -210,6 +228,10 @@ function Sidebar(loopy){
 			"<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"model/resetZoom\")'>reset zoom</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>use rainbow colors</span><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>use Tol colors</span><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>use Wong colors</span><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>use monochrome colors</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
@@ -507,5 +529,4 @@ function ComponentOutput(config){
 	self.output = function(string){
 		self.dom.value = string;
 	};
-
 }
