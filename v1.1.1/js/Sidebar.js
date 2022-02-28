@@ -188,7 +188,7 @@ function Sidebar(loopy){
 			}
 		}));
 		page.onedit = function() {
-			page.getComponent("timeWindow").setBGColor("#000000")
+			page.getComponent("timeWindow").setBGColor("#000000");
 		}
 		self.addPage("Graph", page);
 	})();
