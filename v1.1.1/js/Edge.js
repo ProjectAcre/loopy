@@ -145,8 +145,8 @@ function Edge(model, config){
 			ctx.scale(size, size);
 
 			// Signal's COLOR, BLENDING
-			var fromColor = Node.COLORS[self.from.hue];
-			var toColor = Node.COLORS[self.to.hue];
+			var fromColor = Node.COLOR_SETS[self.from.palette][self.from.hue];
+			var toColor = Node.COLOR_SETS[self.to.palette][self.to.hue];
 			var blend;
 			var bStart=0.4, bEnd=0.6;
 			if(signal.position<bStart){

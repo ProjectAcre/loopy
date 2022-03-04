@@ -168,28 +168,40 @@ function NodeGraph(model) {
         self.isDragging = false;
     });
 
-    var _listenerResize = subscribe("node/changeColorRainbow", function() {
+    var _listenerRainbow = subscribe("node/changeColorRainbow", function() {
         self.changePalette(0);
     });
 
-    var _listenerResize = subscribe("node/changeColorTol", function() {
+    var _listenerTol = subscribe("node/changeColorTol", function() {
         self.changePalette(1);
     });
-    var _listenerResize = subscribe("node/changeColorWong", function() {
+    var _listenerWong = subscribe("node/changeColorWong", function() {
         self.changePalette(2);
-    });
-    var _listenerResize = subscribe("node/changeColorBW", function() {
-        self.changePalette(3);
     });
 
     self.changePalette = function(n){
         Node.defaultPalette = n;
         for (let i = 0; i < nodes.length; i++){
             nodes[i].palette = n;
-            nodes[i].color = Node.COLORSETS[nodes[i].palette][nodes[i].hue];
+            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
+            self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+            self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
+            self.chart.data.datasets[i].borderColor = nodes[i].color;
+        }
+        self.chart.update();
+        }
+
+    /*     var _listenerChangeColor = subscribe("node/changecolor", function(n) {
+        Node.defaultPalette = n[0];
+        for (let i = 0; i < nodes.length; i++){
+            nodes[i].palette = n;
+            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
+            self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+            self.chart.data.datasets[i].borderColor = nodes[i].color;
+            //self.chart.legend.legendItems[i].fillStyle = nodes[i].color;
         }
 		publish("mousemove");
-    }
+    }); */
 
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {

@@ -12,7 +12,7 @@ Node.COLORS = {
 	4: "#7FD4FF", // blue
 	5: "#A97FFF" // purple
 };
-Node.COLORSTOL = {
+Node.COLORS_TOL = {
 	0: "#332288", // navy
 	1: "#117733", // green
 	2: "#44AA99", // teal
@@ -20,7 +20,7 @@ Node.COLORSTOL = {
 	4: "#DDCC77", // yellow
 	5: "#CC6677" // red
 };
-Node.COLORSWONG = {
+Node.COLORS_WONG = {
 	0: "#D55E00", // red-oragne
 	1: "#E69F00", // orange
 	2: "#F0E442", // yellow
@@ -28,19 +28,11 @@ Node.COLORSWONG = {
 	4: "#56B4E9", // light blue
 	5: "#0072B2" // blue
 };
-Node.COLORSBW = {
-	0: "#808080", // lightest grey
-	1: "#676767", // lighter grey
-	2: "#4D4D4D", // light grey
-	3: "#343434", // grey
-	4: "#1A1A1A", // grey-black
-	5: "#000000" // black
-};
-Node.COLORSETS = {
+
+Node.COLOR_SETS = {
 	0: Node.COLORS,
-	1: Node.COLORSTOL,
-	2: Node.COLORSWONG,
-	3: Node.COLORSBW
+	1: Node.COLORS_TOL,
+	2: Node.COLORS_WONG,
 };
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
@@ -255,7 +247,7 @@ function Node(model, config){
 		var x = self.x*2;
 		var y = self.y*2;
 		var r = self.radius*2;
-		self.color = Node.COLORSETS[self.palette][self.hue];
+		self.color = Node.COLOR_SETS[self.palette][self.hue];
 		
 		// Modify color if exploded
 		if(self.exploded) {

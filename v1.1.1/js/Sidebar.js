@@ -8,7 +8,7 @@ function Sidebar(loopy){
 
 	var self = this;
 	
-	Sidebar.COLORSLIDEROPTIONS = {
+	Sidebar.COLOR_SLIDER_OPTIONS = {
 		0 : "colorRainbow",
 		1 : "colorTol",
 		2 : "colorWong",
@@ -99,7 +99,7 @@ function Sidebar(loopy){
 
 			// Set color of Slider
 			var node = page.target;
-			var color = Node.COLORSETS[node.palette][node.hue];
+			var color = Node.COLOR_SETS[node.palette][node.hue];
 			page.getComponent("init").setBGColor(color);
 			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
@@ -231,7 +231,6 @@ function Sidebar(loopy){
 			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>Rainbow</span> "+
 			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>Tol</span> "+
 			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>Wong</span><br><br>"+
-			// "<span class='mini_button' onclick='publish(\"node/changeColorBW\")'>Monochrome</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
@@ -274,9 +273,10 @@ function Sidebar(loopy){
 
 	self.changePalette = function(n){
         Node.defaultPalette = n;
-        this.pages[0].components[2].dom.innerHTML = "<div class=\"component_label\">Color:</div><div class=\"component_slider\"><img draggable=\"false\" src=\"css/sliders/"+Sidebar.COLORSLIDEROPTIONS[Node.defaultPalette]+".png\" class=\"component_slider_graphic\"><img draggable=\"false\" src=\"css/sliders/slider_pointer.png\" class=\"component_slider_pointer\"></div>"
-		// the line above SUCKS, but it changes the slider image which is what we need
-	}
+        this.pages[0].components[2].dom.children[1].firstChild.src = "" +
+        "http://127.0.0.1:5500/v1.1.1/css/sliders/" + Sidebar.COLOR_SLIDER_OPTIONS[Node.defaultPalette] + ".png";
+        // the lines above SUCKS, but it changes the slider image which is what we need
+    }
 
 }
 
