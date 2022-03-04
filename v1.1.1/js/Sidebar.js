@@ -11,8 +11,7 @@ function Sidebar(loopy){
 	Sidebar.COLOR_SLIDER_OPTIONS = {
 		0 : "colorRainbow",
 		1 : "colorTol",
-		2 : "colorWong",
-		3 : "colorBW"}
+		2 : "colorWong"}
 
 	PageUI.call(self, document.getElementById("sidebar"));
 
@@ -228,9 +227,9 @@ function Sidebar(loopy){
 			"<span class='mini_button' onclick='publish(\"model/resetZoom\")'>reset zoom</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
 			"Color Palette: <br>" +
-			"<span class='mini_button' onclick='publish(\"node/changeColorRainbow\")'>Rainbow</span> "+
-			"<span class='mini_button' onclick='publish(\"node/changeColorTol\")',>Tol</span> "+
-			"<span class='mini_button' onclick='publish(\"node/changeColorWong\")'>Wong</span><br><br>"+
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[0])'>Rainbow</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[1])',>Tol</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[2])'>Wong</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
@@ -255,28 +254,12 @@ function Sidebar(loopy){
 		}
 	});
 
-    subscribe("node/changeColorRainbow", function() {
-        self.changePalette(0);
-    });
-
-    subscribe("node/changeColorTol", function() {
-        self.changePalette(1);
-    });
-	
-    subscribe("node/changeColorWong", function() {
-        self.changePalette(2);
-    });
-
-	subscribe("node/changeColorBW", function() {
-        self.changePalette(3);
-    });
-
-	self.changePalette = function(n){
+ 	subscribe("node/changeColor", function(n) {
         Node.defaultPalette = n;
-        this.pages[0].components[2].dom.children[1].firstChild.src = "" +
+        self.pages[0].components[2].dom.children[1].firstChild.src = "" +
         "http://127.0.0.1:5500/v1.1.1/css/sliders/" + Sidebar.COLOR_SLIDER_OPTIONS[Node.defaultPalette] + ".png";
         // the lines above SUCKS, but it changes the slider image which is what we need
-    }
+    }); 
 
 }
 

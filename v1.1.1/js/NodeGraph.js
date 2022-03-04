@@ -168,40 +168,20 @@ function NodeGraph(model) {
         self.isDragging = false;
     });
 
-    var _listenerRainbow = subscribe("node/changeColorRainbow", function() {
-        self.changePalette(0);
-    });
-
-    var _listenerTol = subscribe("node/changeColorTol", function() {
-        self.changePalette(1);
-    });
-    var _listenerWong = subscribe("node/changeColorWong", function() {
-        self.changePalette(2);
-    });
-
-    self.changePalette = function(n){
+    var _listenerChangeColor = subscribe("node/changeColor", function(n) {
         Node.defaultPalette = n;
         for (let i = 0; i < nodes.length; i++){
             nodes[i].palette = n;
             nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
-            self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
-            self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
-            self.chart.data.datasets[i].borderColor = nodes[i].color;
+            if(self.chart.data.datasets.length != 0){
+                self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+                self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
+                self.chart.data.datasets[i].borderColor = nodes[i].color;
+            }
         }
         self.chart.update();
-        }
-
-    /*     var _listenerChangeColor = subscribe("node/changecolor", function(n) {
-        Node.defaultPalette = n[0];
-        for (let i = 0; i < nodes.length; i++){
-            nodes[i].palette = n;
-            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
-            self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
-            self.chart.data.datasets[i].borderColor = nodes[i].color;
-            //self.chart.legend.legendItems[i].fillStyle = nodes[i].color;
-        }
-		publish("mousemove");
-    }); */
+        publish("mousemove");
+    });
 
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {
