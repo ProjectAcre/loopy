@@ -7,6 +7,12 @@ SIDEBAR CODE
 function Sidebar(loopy){
 
 	var self = this;
+	
+	Sidebar.COLOR_SLIDER_OPTIONS = {
+		0 : "colorRainbow",
+		1 : "colorTol",
+		2 : "colorWong"}
+
 	PageUI.call(self, document.getElementById("sidebar"));
 
 	// Edit
@@ -37,12 +43,21 @@ function Sidebar(loopy){
 			//label: "Name:"
 		}));
 		page.addComponent("hue", new ComponentSlider({
-			bg: "color",
+			bg: "colorRainbow",
 			label: "Color:",
 			options: [0,1,2,3,4,5],
 			oninput: function(value){
 				Node.defaultHue = value;
 			}
+		}));
+		page.addComponent("shape", new ComponentSlider({
+			bg: "shape",
+			label: "Shape of point on graph",
+			options: ["circle","triangle","rect","rectRot","star","cross","crossRot"],
+			oninput: function(value){
+				Node.defaultShape = value;
+			}
+
 		}));
 		page.addComponent("init", new ComponentSlider({
 			bg: "initial",
@@ -83,8 +98,9 @@ function Sidebar(loopy){
 
 			// Set color of Slider
 			var node = page.target;
-			var color = Node.COLORS[node.hue];
+			var color = Node.COLOR_SETS[node.palette][node.hue];
 			page.getComponent("init").setBGColor(color);
+			page.getComponent("shape").setBGColor(color);
 			page.getComponent("explodeUpperThreshold").setBGColor(color);
 			page.getComponent("explodeLowerThreshold").setBGColor(color);
 
@@ -210,6 +226,10 @@ function Sidebar(loopy){
 			// "<span class='mini_button' onclick='publish(\"debug/toggle\")'>toggle debug values</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"model/resetZoom\")'>reset zoom</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"graph/toggleVisible\")'>toggle Graph visibility</span> <br><br>"+
+			"Color Palette: <br>" +
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[0])'>Rainbow</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[1])',>Tol</span> "+
+			"<span class='mini_button' onclick='publish(\"node/changeColor\",[2])'>Wong</span><br><br>"+
 			"<span class='mini_button' onclick='publish(\"modal\",[\"save_link\"])'>save as link</span> <br><br>"+
 			"<span class='mini_button' onclick='publish(\"export/file\")'>save as file</span> "+
 			"<span class='mini_button' onclick='publish(\"import/file\")'>load from file</span> <br><br>"+
@@ -233,6 +253,13 @@ function Sidebar(loopy){
 			publish("modal",["save_link"]);
 		}
 	});
+
+ 	subscribe("node/changeColor", function(n) {
+        Node.defaultPalette = n;
+        self.pages[0].components[2].dom.children[1].firstChild.src = "" +
+        "http://127.0.0.1:5500/v1.1.1/css/sliders/" + Sidebar.COLOR_SLIDER_OPTIONS[Node.defaultPalette] + ".png";
+        // the lines above SUCKS, but it changes the slider image which is what we need
+    }); 
 
 }
 
@@ -507,5 +534,4 @@ function ComponentOutput(config){
 	self.output = function(string){
 		self.dom.value = string;
 	};
-
 }

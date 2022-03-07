@@ -12,9 +12,33 @@ Node.COLORS = {
 	4: "#7FD4FF", // blue
 	5: "#A97FFF" // purple
 };
+Node.COLORS_TOL = {
+	0: "#332288", // navy
+	1: "#117733", // green
+	2: "#44AA99", // teal
+	3: "#88CCEE", // light blue
+	4: "#DDCC77", // yellow
+	5: "#CC6677" // red
+};
+Node.COLORS_WONG = {
+	0: "#D55E00", // red-oragne
+	1: "#E69F00", // orange
+	2: "#F0E442", // yellow
+	3: "#009E73", // green
+	4: "#56B4E9", // light blue
+	5: "#0072B2" // blue
+};
+
+Node.COLOR_SETS = {
+	0: Node.COLORS,
+	1: Node.COLORS_TOL,
+	2: Node.COLORS_WONG,
+};
 Node.defaultValue = 0.5;
 Node.defaultHue = 0;
 Node.defaultExplodes = false;
+Node.defaultPalette = 0;
+Node.defaultShape = "circle";
 Node.explodedColor = "#808080";
 Node.displayDebugText = false;
 
@@ -42,6 +66,8 @@ function Node(model, config){
 		label: "?",
 		explodes: Node.defaultExplodes,
 		hue: Node.defaultHue,
+		palette: Node.defaultPalette,
+		shape: Node.defaultShape,
 		radius: Node.DEFAULT_RADIUS,
 		explodeUpperThreshold: Node.defaultExplodeUpperThreshold,
 		explodeLowerThreshold: Node.defaultExplodeLowerThreshold,
@@ -220,7 +246,7 @@ function Node(model, config){
 		var x = self.x*2;
 		var y = self.y*2;
 		var r = self.radius*2;
-		self.color = Node.COLORS[self.hue];
+		self.color = Node.COLOR_SETS[self.palette][self.hue];
 		
 		// Modify color if exploded
 		if(self.exploded) {

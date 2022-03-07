@@ -99,6 +99,11 @@ function Loopy(config){
 
 	// Zoom
 	self.zoom = function(event) {
+		// Don't zoom if the mouse is over the sidebar pls
+		var mx = event.clientX ?? 0;	// If not triggered by a mousewheel event, then ignore mouse position
+		var my = event.clientY ?? 0;
+		var hoveredElements = document.elementsFromPoint(mx, my);
+		if(hoveredElements.includes(document.getElementById("sidebar"))) return;
 		// Get mouse scroll direction, inverse, multiply by zoom speed
 		speed = Math.sign(event.deltaY) * -zoomSpeed; 
 		self.offsetScale += speed;

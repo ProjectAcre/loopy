@@ -148,12 +148,15 @@ div[big=yes] .play_button_label{
 #sidebar{
 	position: absolute;
 	top:0; right:0;
-	width: 300px;
+	width: 317px; /* Added 17 px to account for area now covered by windows scroll bar */
 	height: 100%;
 	background: #ddd;
 
 	font-weight: 100;
 	font-size: 17px;
+
+	overflow-y: scroll;
+	overflow-x: hidden;
 
 	-webkit-user-select: none;
 	-moz-user-select: none;

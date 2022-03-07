@@ -8,6 +8,16 @@ NodeGraph.defaultTimeWindow = 15;  // Seconds
 NodeGraph.defaultWidth = 400;   //px
 NodeGraph.defaultHeight = 350;  //px
 
+NodeGraph.shapes = {
+    "circle" : "● ",
+    "triangle" : "▲ ",
+    "rect" : "■ ",
+    "rectRot" : "◆ ",
+    "star" : "* ",
+    "cross" : "+ ",
+    "crossRot" : "x "
+}
+
 function NodeGraph(model) {
     var self = this;
     self.loopy = model.loopy;
@@ -27,6 +37,7 @@ function NodeGraph(model) {
     var nodes = model.nodes;
     var n = 0; // number of nodes
     backgroundColors = []
+    backgroundShapes = []
     labels = []
     nodeData = []
     
@@ -103,9 +114,10 @@ function NodeGraph(model) {
                     self.chart.data.datasets[i].data.shift();
                 }
                 
-                self.chart.data.datasets[i].label = nodes[i].label; // Continually update label for renaming
+                self.chart.data.datasets[i].label = NodeGraph.shapes[nodes[i].shape] + nodes[i].label; // Continually update label for renaming
                 self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
                 self.chart.data.datasets[i].borderColor = nodes[i].color;
+                self.chart.data.datasets[i].pointStyle = nodes[i].shape;
             }
          }
 
@@ -124,6 +136,7 @@ function NodeGraph(model) {
                 data: [],
                 borderColor: nodes[i].color,
                 backgroundColor: nodes[i].color,
+                backgroundShape: nodes[i].shape,
                 borderWidth: 1
             });
         }
@@ -157,6 +170,21 @@ function NodeGraph(model) {
     
     var _listenerRightMouseUp = subscribe("rightmouseup", function() {
         self.isDragging = false;
+    });
+
+    var _listenerChangeColor = subscribe("node/changeColor", function(n) {
+        Node.defaultPalette = n;
+        for (let i = 0; i < nodes.length; i++){
+            nodes[i].palette = n;
+            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
+            if(self.chart.data.datasets.length != 0){
+                self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+                self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
+                self.chart.data.datasets[i].borderColor = nodes[i].color;
+            }
+        }
+        self.chart.update();
+        publish("mousemove");
     });
 
     self.isPointOnGraph = function(x, y) {
