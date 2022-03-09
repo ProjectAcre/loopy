@@ -187,21 +187,6 @@ function NodeGraph(model) {
         publish("mousemove");
     });
 
-    var _listenerChangeColor = subscribe("node/changeColor", function(n) {
-        Node.defaultPalette = n;
-        for (let i = 0; i < nodes.length; i++){
-            nodes[i].palette = n;
-            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
-            if(self.chart.data.datasets.length != 0){
-                self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
-                self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
-                self.chart.data.datasets[i].borderColor = nodes[i].color;
-            }
-        }
-        self.chart.update();
-        publish("mousemove");
-    });
-
     self.isPointOnGraph = function(x, y) {
         if(self.isHidden) {
             return false;
