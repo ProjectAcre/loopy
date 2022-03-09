@@ -257,7 +257,7 @@ function Sidebar(loopy){
  	subscribe("node/changeColor", function(n) {
         Node.defaultPalette = n;
         self.pages[0].components[2].dom.children[1].firstChild.src = "" +
-        "http://127.0.0.1:5500/v1.1.1/css/sliders/" + Sidebar.COLOR_SLIDER_OPTIONS[Node.defaultPalette] + ".png";
+        "css/sliders/" + Sidebar.COLOR_SLIDER_OPTIONS[Node.defaultPalette] + ".png";
         // the lines above SUCKS, but it changes the slider image which is what we need
     }); 
 
