@@ -23,9 +23,9 @@ Template.POSITIVE_FEEDBACK_TEMPLATE = {
 }
 
 Template.START_TEMPLATE = {
-	nodes: [{y: -80, init: 1, label: "start", hue: 4}, {y: 80, x: -120, init: 1, label: "system 1", hue: 5}, {y: 80, x: 120, init: 1, label: "system 2", hue: 5}],
+	nodes: [{y: 0, init: 1, label: "start", hue: 4}, {y: 160, x: -120, init: 1, label: "system 1", hue: 5}, {y: 160, x: 120, init: 1, label: "system 2", hue: 5}],
 	edges: [{from: 1, to: 2, arc: -1, strength: 1}, {from: 1, to: 3, arc: 1, strength: 1}],
-	labels: [{y: -150, text: "Click to start!"}],
+	labels: [{y: -70, text: "Click to start!"}],
 }
 
 Template.NEGATIVE_TEMPLATE = {
@@ -184,5 +184,8 @@ function Template(model, prototype) {
 
 		// Killed!
 		publish("kill", [self]);
+		
+		// Force redraw
+		publish("mousemove");
 	};
 }

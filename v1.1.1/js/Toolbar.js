@@ -46,17 +46,19 @@ function Toolbar(loopy){
 
 	};
 
-	// Select button
-	self.selectButton = function(button){
+	// Select button based on active tool
+	self.selectButton = function(){
 		for(var i=0;i<buttons.length;i++){
 			buttons[i].deselect();
 		}
-		button.select();
+		buttonsByID[self.currentTool].select();
 	};
 
 	// Set Tool
 	self.currentTool = "ink";
 	self.setTool = function(tool){
+		// Remove previous template tool if assigned
+		if(loopy.model.activeTemplate) loopy.model.activeTemplate.kill();
 		self.currentTool = tool;
 		var name = "TOOL_"+tool.toUpperCase();
 		loopy.tool = Loopy[name];
@@ -101,7 +103,7 @@ function Toolbar(loopy){
 		}
 	});
 	self.addButton({
-		id: "templates",
+		id: "template",
 		tooltip: "TE(M)PLATE",
 		callback: function() {
 			self.toggleTemplateBar();
@@ -178,7 +180,7 @@ function ToolbarButton(toolbar, config){
 	// On Click
 	self.callback = function(){
 		config.callback();
-		toolbar.selectButton(self);
+		toolbar.selectButton();
 	};
 	self.dom.onclick = self.callback;
 

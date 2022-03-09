@@ -149,7 +149,6 @@ function Node(model, config){
 	});
 	var _listenerDebugToggle = subscribe("debug/toggle", function(){
 		self.displayDebug = !self.displayDebug;
-		self.draw(self.model.context);
 		publish("mousemove")	// To force a page redraw, otherwise text will still be visible behind nodes
 	});
 

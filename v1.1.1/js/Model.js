@@ -181,10 +181,15 @@ function Model(loopy){
 		var newX = 0, newY = 0, startX = 0, startY = 0;
 		function dragMouseDown(e) {
 			e = e || window.event; // I'm scared
+			if(e.button == Mouse.RIGHT) {	// Don't move the graph with a right click
+				e.preventDefault();
+				e.stopPropagation();
+				return;
+			}
 			e.preventDefault(); // From code I copied
 			// Get initial mouse cursor
-			startX = e.ClientX;
-			startY = e.ClientY;
+			startX = e.clientX;
+			startY = e.clientY;
 			document.onmouseup = closeDragElement;
 			// Call a function whenever the cursor moves
 			document.onmousemove = elementDrag;
@@ -325,6 +330,9 @@ function Model(loopy){
 			// 3 - init value
 			// 4 - label
 			// 5 - hue
+			// 6 - explodes?
+			// 7 - explodeUpperThreshold
+			// 8 - explodeLowerThreshold
 			nodes.push([
 				node.id,
 				Math.round(node.x),
@@ -511,7 +519,7 @@ function Model(loopy){
 	}
 
 	// Click to edit!
-	subscribe("mouseclick",function(){
+	subscribe("mouseclick",function(e){
 
 		// ONLY WHEN EDITING (and NOT erase)
 		if(self.loopy.mode!=Loopy.MODE_EDIT) return;
@@ -531,11 +539,14 @@ function Model(loopy){
 			return;
 		}
 
-		var clickedGraph = self.getGraphByPoint(Mouse.x, Mouse.y);
+		// Did you click on the graph? We'll need to check event data to find out, but then, if so, edit the graph.
+		e = e || window.event;
+		var clickedGraph = self.getGraphByPoint(e.clientX, e.clientY);
 		if(clickedGraph) {
 			loopy.sidebar.edit(clickedGraph);
 			return;
 		}
+
 		// Did you click on an edge label? If so, edit THAT edge.
 		var clickedEdge = self.getEdgeByPoint(Mouse.x, Mouse.y);
 		if(clickedEdge){

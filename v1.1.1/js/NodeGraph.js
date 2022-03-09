@@ -154,8 +154,8 @@ function NodeGraph(model) {
         else
         {
             self.chart.resize(NodeGraph.defaultWidth, NodeGraph.defaultHeight);
-            containingDiv.style.width = 400;    // Hardcoded because I'm lazy
-            containingDiv.style.height = 350;
+            containingDiv.style.width = NodeGraph.defaultWidth;
+            containingDiv.style.height = NodeGraph.defaultHeight;
             self.isHidden = false;
         }
     });
@@ -166,6 +166,25 @@ function NodeGraph(model) {
 
     var _listenerMouseUp = subscribe("mouseup", function() {
         self.isDragging = false;
+    });
+    
+    var _listenerRightMouseUp = subscribe("rightmouseup", function() {
+        self.isDragging = false;
+    });
+
+    var _listenerChangeColor = subscribe("node/changeColor", function(n) {
+        Node.defaultPalette = n;
+        for (let i = 0; i < nodes.length; i++){
+            nodes[i].palette = n;
+            nodes[i].color = Node.COLOR_SETS[nodes[i].palette][nodes[i].hue];
+            if(self.chart.data.datasets.length != 0){
+                self.chart.data.datasets[i].backgroundColor = nodes[i].color; // Update color as well
+                self.chart.data.datasets[i].pointBackgroundColor = nodes[i].color;
+                self.chart.data.datasets[i].borderColor = nodes[i].color;
+            }
+        }
+        self.chart.update();
+        publish("mousemove");
     });
 
     var _listenerChangeColor = subscribe("node/changeColor", function(n) {
@@ -191,16 +210,17 @@ function NodeGraph(model) {
     }
 
     self.isBeingDragged = function(x,y) {
-        if(Mouse.pressed  && self.isPointOnGraph(x,y)) {
+        if((Mouse.pressed || Mouse.pressedRight)  && self.isPointOnGraph(x,y)) {
             self.isDragging = true;
         }
         return self.isDragging;
     }
 
     self.getBounds = function() {
+        var containingDiv = document.getElementById(self.parent);
         return {
-            x: canvas.style.left,
-            y: canvas.style.top,
+            x: parseInt(containingDiv.style.left, 10),
+            y: parseInt(containingDiv.style.top, 10),
             width: self.graphW,
             height: self.graphH
         };
